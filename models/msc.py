@@ -35,6 +35,6 @@ class MSC(nn.Module):
         logits_max = torch.max(torch.stack(logits_all), dim=0)[0]
 
         if self.training:
-            return [logits] + logits_pyramid + [logits_max]
+            return logits # [logits] + logits_pyramid + [logits_max]
         else:
             return logits_max

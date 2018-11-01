@@ -44,20 +44,22 @@ class PartAffordanceDatasetWithoutLabel(Dataset):
     def __init__(self, csv_file, transform=None):
         super().__init__()
         
-        self.image_class_path = pd.read_csv(csv_file)
+        self.image_path = pd.read_csv(csv_file)
         self.transform = transform
         
     def __len__(self):
-        return len(self.image_class_path)
+        return len(self.image_path)
     
     def __getitem__(self, idx):
-        image_path = self.image_class_path.iloc[idx]
+        image_path = self.image_path.iloc[idx, 0]
         image = Image.open(image_path) 
         
+        sample = {'image': image}
+
         if self.transform:
-            image = self.transform(image)
+            sample = self.transform(sample)
             
-        return image
+        return sample
 
 
 
@@ -80,34 +82,48 @@ def crop_center_pil_image(pil_img, crop_height, crop_width):
 
 class CenterCrop(object):
     def __call__(self, sample):
-        image, cls = sample['image'], sample['class']
         
-        image = crop_center_pil_image(image, 256, 320)
-        cls = crop_center_numpy(cls, 256, 320)
-        
-        return {'image': image, 'class': cls}
+        if 'class' in sample:
+            image, cls = sample['image'], sample['class']
+            image = crop_center_pil_image(image, 256, 320)
+            cls = crop_center_numpy(cls, 256, 320)
+            return {'image': image, 'class': cls}
+            
+        else:
+            image = sample['image']
+            return {'image': image}
 
 
 
 class ToTensor(object):
     def __call__(self, sample):
-        image, cls = sample['image'], sample['class']
         
-        return {'image': transforms.functional.to_tensor(image).float(), 
-                'class': torch.from_numpy(cls).long()}
+        if 'class' in sample:
+            image, cls = sample['image'], sample['class']
+            return {'image': transforms.functional.to_tensor(image).float(), 
+                    'class': torch.from_numpy(cls).long()}
+        else:
+            image = sample['image']
+            return {'image': transforms.functional.to_tensor(image).float()}
 
 
-
-mean=[55.8630, 59.9099, 91.7419]
-std=[31.6852, 29.8496, 19.0835]
 
 class Normalize(object):
+    def __init__(self, mean=[55.8630, 59.9099, 91.7419], std=[31.6852, 29.8496, 19.0835]):
+        self.mean = mean
+        self.std = std
+
+
     def __call__(self, sample):
-        image, cls = sample['image'], sample['class']
-        
-        image = transforms.functional.normalize(image, mean, std)
-        
-        return {'image': image, 'class': cls}
+
+        if 'class' in sample:
+            image, cls = sample['image'], sample['class']
+            image = transforms.functional.normalize(image, self.mean, self.std)
+            return {'image': image, 'class': cls}
+        else:
+            image = sample['image']
+            image = transforms.functional.normalize(image, self.mean, self.std)
+            return {'image': image}
 
 
 
@@ -135,7 +151,7 @@ for sample in data_laoder:
     n += len(img)
     
 mean /= n
-std /= n
+std /= ns
 
 '''
 

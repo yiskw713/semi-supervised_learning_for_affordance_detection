@@ -183,7 +183,7 @@ def semi_train(
     h = model(x)     # shape => (N, 8, H/8, W/8)
     h = F.interpolate(h, size=(256, 320), mode='bilinear', align_corners=True)
 
-    h_, _ = torch.max(h, dim=1)    # to calculate the crossentropy loss. shape => (N, H, W)
+    _, h_ = torch.max(h, dim=1)    # to calculate the crossentropy loss. shape => (N, H, W)
 
     with torch.no_grad():
         d_out = model_d(h)    # shape => (N, 1, H/32, W/32)
@@ -411,7 +411,7 @@ def main(
                 epoch_loss_full += loss_full
                 epoch_loss_d += loss_d
 
-                loss_semi += semi_train(
+                loss_semi = semi_train(
                                         model, model_d, sample2, criterion_ce_semi, criterion_bce,
                                         optimizer, optimizer_d, ones, zeros, device)
 

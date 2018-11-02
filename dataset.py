@@ -85,12 +85,13 @@ class CenterCrop(object):
         
         if 'class' in sample:
             image, cls = sample['image'], sample['class']
-            image = crop_center_pil_image(image, 256, 320)
-            cls = crop_center_numpy(cls, 256, 320)
+            image = crop_center_pil_image(image, 256, 256)
+            cls = crop_center_numpy(cls, 256, 256)
             return {'image': image, 'class': cls}
             
         else:
             image = sample['image']
+            image = crop_center_pil_image(image, 256, 256)
             return {'image': image}
 
 

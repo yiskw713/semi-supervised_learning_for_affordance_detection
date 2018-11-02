@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -240,32 +242,45 @@ def eval_model(model, test_loader, device='cpu'):
     return iou
 
 
+pretrained_model = './models/deeplabv2_resnet101_COCO_init.pth'
+class_weight_flag = True
+batch_size = 6
+num_workers = 2
+max_epoch = 1000
+learning_rate = 0.00025
+learning_rate_d = 0.0001
+n_classes = 8
+device = 'cuda:1'
+writer_flag=True
+result_path = './result/'
 
-@click.command()
-@click.option("--pretrained_model", type=str, default='./models/deeplabv2_resnet101_COCO_init.pth',
-                        help="if you use a pretrained model. If so, write the path of params")
-@click.option("--class_weight_flag", type=bool, default=True,
-                        help="if you want to use class weight, input True. Else, input False")
-@click.option("--batch_size", type=int, default=12,
-                        help="number of batch size: number of samples sent to the network at a time")
-@click.option("--num_workers", type=int, default=2,
-                        help="number of workers for multithread data loading")
-@click.option("--max_epoch", type=int, default=1000,
-                        help="the number of epochs for training")
-@click.option("--learning_rate", type=float, default=0.00025,
-                        help="base learning rate for training segmentation network")
-@click.option("--learning_rate_d", type=float, default=0.0001,
-                        help="base learning rate for training discriminator")
-@click.option("--n_classes", type=int, default=8,
-                        help="number of classes in the dataset including background")
-@click.option("--device", type=str, default='cuda: 1',
-                        help="the device you'll use (cpu or cuda:0 or so on)")
-@click.option("--writer_flag", type=bool, default=True,
-                        help="if you want to use SummaryWriter in tesorboardx, input True. Else, input False")
-@click.option("--result_path", type=str, default='./result',
-                        help="select your directory to save the result")
-@click.option("--cuda_id", type=list, default=[1, 2],
-                        help="input gpu id you want to use. input type is list")
+
+# @click.command()
+# @click.option("--pretrained_model", type=str, default='./models/deeplabv2_resnet101_COCO_init.pth',
+#                         help="if you use a pretrained model. If so, write the path of params")
+# @click.option("--class_weight_flag", type=bool, default=True,
+#                         help="if you want to use class weight, input True. Else, input False")
+# @click.option("--batch_size", type=int, default=8,
+#                         help="number of batch size: number of samples sent to the network at a time")
+# @click.option("--num_workers", type=int, default=2,
+#                         help="number of workers for multithread data loading")
+# @click.option("--max_epoch", type=int, default=1000,
+#                         help="the number of epochs for training")
+# @click.option("--learning_rate", type=float, default=0.00025,
+#                         help="base learning rate for training segmentation network")
+# @click.option("--learning_rate_d", type=float, default=0.0001,
+#                         help="base learning rate for training discriminator")
+# @click.option("--n_classes", type=int, default=8,
+#                         help="number of classes in the dataset including background")
+# @click.option("--device", type=str, default='cuda: 1',
+#                         help="the device you'll use (cpu or cuda:0 or so on)")
+# @click.option("--writer_flag", type=bool, default=True,
+#                         help="if you want to use SummaryWriter in tesorboardx, input True. Else, input False")
+# @click.option("--result_path", type=str, default='./result',
+#                         help="select your directory to save the result")
+# @click.option("--cuda_id", type=list, default=[1, 2],
+#                         help="input gpu id you want to use. input type is list")
+
 def main(
     pretrained_model, class_weight_flag, batch_size, num_workers, max_epoch, learning_rate,
     learning_rate_d, n_classes, device, writer_flag, result_path):
@@ -311,9 +326,6 @@ def main(
 
     state_dict = torch.load(pretrained_model)
     model.load_state_dict(state_dict, strict=False)
-
-    model = nn.DataParallel(model, device_ids=cuda_id)
-    model_d = nn.DataParallel(model_d, device_ids=cuda_id)
     
     model.to(device)
     model_d.to(device)
@@ -460,6 +472,7 @@ def main(
     torch.save(model.module.state_dict(), result_path + '/final_model.prm')
     torch.save(model_d.state_dict(), result_path + '/final_model_d.prm')
 
-
 if __name__ == '__main__':
-    main()
+    main(
+    pretrained_model, class_weight_flag, batch_size, num_workers, max_epoch, learning_rate,
+    learning_rate_d, n_classes, device, writer_flag, result_path)

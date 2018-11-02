@@ -226,11 +226,14 @@ def eval_model(model, test_loader, device='cpu'):
         y = y.to(device)
         
         with torch.no_grad():
-            _, ypred = model(x).max(1)    # y_pred.shape => (N, 256, 320)
-        
+            ypred = model(x)    # shape => (N, 8, H/8, W/8)
+            ypred = F.interpolate(ypred, size=(256, 320), mode='bilinear', align_corners=True)    # shape => (N, 8, H, W)
+            _, ypred = model(ypred).max(1)    # y_pred.shape => (N, H, W)
+            
+
         for i in range(8):
             y_i = (y == i)           
-            ypred_i = (ypred == i)   
+            ypred_i = (ypred == i)
             
             inter = (y_i.byte() & ypred_i.byte()).float().sum().to('cpu')
             intersection[i] += inter

@@ -208,8 +208,8 @@ def main(config, device):
 
     model.apply(init_weights)
 
-    state_dict = torch.load(CONFIG.pretrained_model)
-    model.load_state_dict(state_dict, strict=False)
+    # state_dict = torch.load(CONFIG.pretrained_model)
+    # model.load_state_dict(state_dict, strict=False)
     
     model.to(args.device)
 

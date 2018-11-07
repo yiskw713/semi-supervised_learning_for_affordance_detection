@@ -35,15 +35,6 @@ def one_hot(label, n_classes, device):
 
 ''' scheduler for learning rate '''
 
-def poly_lr_scheduler(optimizer, init_lr, iter, lr_decay_iter, max_iter, power):
-    if iter % lr_decay_iter or iter > max_iter:
-        return None
-    new_lr = init_lr * (1 - float(iter) / max_iter) ** power
-    optimizer.param_groups[0]["lr"] = new_lr
-    optimizer.param_groups[1]["lr"] = 10 * new_lr
-    optimizer.param_groups[2]["lr"] = 20 * new_lr
-
-
 def poly_lr_scheduler_d(optimizer, init_lr, iter, lr_decay_iter, max_iter, power):
     if iter % lr_decay_iter or iter > max_iter:
         return None
@@ -70,38 +61,6 @@ def init_weights(m):
             nn.init.constant_(m.weight, 1)
 
 
-def DeepLabV2_ResNet101_MSC(n_classes):
-    return MSC(
-        scale=DeepLabV2(
-            n_classes=n_classes, n_blocks=[3, 4, 23, 3], pyramids=[6, 12, 18, 24]
-        ),
-        pyramids=[0.5, 0.75],
-    )
-
-
-def get_params(model, key):
-    # For Dilated FCN
-    if key == "1x":
-        for m in model.named_modules():
-            if "layer" in m[0]:
-                if isinstance(m[1], nn.Conv2d):
-                    for p in m[1].parameters():
-                        yield p
-    # For conv weight in the ASPP module
-    if key == "10x":
-        for m in model.named_modules():
-            if "aspp" in m[0]:
-                if isinstance(m[1], nn.Conv2d):
-                    yield m[1].weight
-    # For conv bias in the ASPP module
-    if key == "20x":
-        for m in model.named_modules():
-            if "aspp" in m[0]:
-                if isinstance(m[1], nn.Conv2d):
-                    yield m[1].bias
-
-
-
 ''' training '''
 
 def full_train(model, sample, criterion_ce_full, optimizer, device):
@@ -109,7 +68,6 @@ def full_train(model, sample, criterion_ce_full, optimizer, device):
     ''' full supervised learning for segmentation network'''
 
     model.train()
-    model.scale.freeze_bn()
 
     x, y = sample['image'], sample['class']
 
@@ -135,7 +93,6 @@ def adv_train(
     ''' full supervised and adversarial learning '''
     
     model.train()
-    model.scale.freeze_bn()
     model_d.train()
 
     # train segmentation network
@@ -195,7 +152,6 @@ def semi_train(
     ''' semi supervised learning '''
     
     model.train()
-    model.scale.freeze_bn()
     model_d.eval()
 
     # train segmentation network
@@ -327,23 +283,7 @@ def main(config, device):
     model.to(args.device)
     model_d.to(args.device)
 
-    optimizer = optim.SGD(
-                        params=[{
-                            "params": get_params(model, key="1x"),
-                            "lr": CONFIG.learning_rate,
-                            "weight_decay": 5.0e-4,
-                                },
-                                {
-                            "params": get_params(model, key="10x"),
-                            "lr": 10 * CONFIG.learning_rate,
-                            "weight_decay": 5.0e-4,
-                                },
-                                {
-                                "params": get_params(model, key="20x"),
-                                "lr": 20 * CONFIG.learning_rate,
-                                "weight_decay": 0.0,
-                                }],
-                        momentum=0.9)
+    optimizer = optim.Adam(model.parameters(), lr=CONFIG.learning_rate, betas=(0.9,0.99))
 
     optimizer_d = optim.Adam(model_d.parameters(), lr=CONFIG.learning_rate_d, betas=(0.9,0.99))
 
@@ -376,15 +316,6 @@ def main(config, device):
         epoch_loss_full = 0.0
         epoch_loss_d = 0.0
         epoch_loss_semi = 0.0
-        
-        poly_lr_scheduler(
-            optimizer=optimizer,
-            init_lr=CONFIG.learning_rate,
-            iter=epoch - 1,
-            lr_decay_iter=10,
-            max_iter=CONFIG.max_epoch,
-            power=0.9,
-        )
 
         poly_lr_scheduler_d(
             optimizer=optimizer_d,
@@ -395,8 +326,6 @@ def main(config, device):
             power=0.9,
         )
         
-
-
         # only supervised learning
         if epoch < 50:
             for i, sample in enumerate(train_loader_with_label):

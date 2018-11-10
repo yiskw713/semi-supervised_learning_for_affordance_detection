@@ -33,16 +33,6 @@ def one_hot(label, n_classes, device):
     return one_hot_label
     
 
-''' scheduler for learning rate '''
-
-def poly_lr_scheduler_d(optimizer, init_lr, iter, lr_decay_iter, max_iter, power):
-    if iter % lr_decay_iter or iter > max_iter:
-        return None
-    new_lr = init_lr * (1 - float(iter) / max_iter) ** power
-    optimizer.param_groups[0]["lr"] = new_lr
-    if len(optimizer.param_groups) > 1:
-        optimizer.param_groups[1]['lr'] = 10 * new_lr
-
 
 ''' model, weight initialization, get params '''
 
@@ -87,7 +77,7 @@ def full_train(model, sample, criterion_ce_full, optimizer, device):
 
 
 def adv_train(
-        model, model_d, sample, criterion_ce_ful, criterion_bce, 
+        model, model_d, sample, criterion_ce_full, criterion_bce, 
         optimizer, optimizer_d, ones, zeros, device):
 
     ''' full supervised and adversarial learning '''
@@ -127,7 +117,7 @@ def adv_train(
     seg_out = F.interpolate(seg_out, size=(256, 320), mode='bilinear', align_corners=True)    # shape => (N, 1, H, W)
     seg_out = seg_out.squeeze()
     
-    y_ = one_hot(y_, CONFIG.n_classes, device)    # shape => (N, 8, H, W)
+    y_ = one_hot(y_, 8, device)    # shape => (N, 8, H, W)
     true_out = model_d(y_)    # shape => (N, 1, H/32, W/32)
     true_out = F.interpolate(true_out, size=(256, 320), mode='bilinear', align_corners=True)    # shape => (N, 1, H, W)
     true_out = true_out.squeeze()
@@ -205,7 +195,7 @@ def eval_model(model, test_loader, device='cpu'):
         with torch.no_grad():
             ypred = model(x)    # ypred.shape => (N, 8, H, W)
             _, ypred = ypred.max(1)    # y_pred.shape => (N, 256, 320)
- 
+
         for i in range(8):
             y_i = (y == i)           
             ypred_i = (ypred == i)   
@@ -236,7 +226,6 @@ def get_arguments():
 args = get_arguments()
 
 
-
 def main(config, device):
 
     # configuration
@@ -254,12 +243,12 @@ def main(config, device):
                                                 Normalize()
                                             ]))
 
-    train_data_without_label = PartAffordanceDatasetWithoutLabel('train_with_label.csv',
+    train_data_without_label = PartAffordanceDatasetWithoutLabel('train_without_label.csv',
                                             transform=transforms.Compose([
                                                 CenterCrop(),
                                                 ToTensor(),
                                                 Normalize()
-                                             ]))
+                                            ]))
 
     test_data = PartAffordanceDataset('test.csv',
                                 transform=transforms.Compose([
@@ -316,18 +305,9 @@ def main(config, device):
         epoch_loss_full = 0.0
         epoch_loss_d = 0.0
         epoch_loss_semi = 0.0
-
-        poly_lr_scheduler_d(
-            optimizer=optimizer_d,
-            init_lr=CONFIG.learning_rate_d,
-            iter=epoch - 1,
-            lr_decay_iter=10,
-            max_iter=CONFIG.max_epoch,
-            power=0.9,
-        )
         
         # only supervised learning
-        if epoch < 50:
+        if epoch < 200:
             for i, sample in enumerate(train_loader_with_label):
 
                 loss_full = full_train(model, sample, criterion_ce_full, optimizer, args.device)
@@ -340,7 +320,7 @@ def main(config, device):
 
 
         # adversarial and supervised learning
-        if 50 <= epoch < 100:
+        if 200 <= epoch < 250:
             for i, sample in enumerate(train_loader_with_label):
                 
                 loss_full, loss_d = adv_train(
@@ -356,7 +336,7 @@ def main(config, device):
             
         
         # semi-supervised learning
-        if epoch >= 100:
+        if epoch >= 250:
             for i, (sample1, sample2) in enumerate(zip(train_loader_with_label, train_loader_without_label)):
                 
                 loss_full, loss_d = adv_train(
@@ -396,13 +376,13 @@ def main(config, device):
             writer.add_scalar("loss_semi", losses_semi[-1], epoch)
             writer.add_scalar("mean_iou", mean_iou[-1], epoch)
             writer.add_scalars("class_IoU", {'iou of class 0': val_iou[-1][0],
-                                           'iou of class 1': val_iou[-1][1],
-                                           'iou of class 2': val_iou[-1][2],
-                                           'iou of class 3': val_iou[-1][3],
-                                           'iou of class 4': val_iou[-1][4],
-                                           'iou of class 5': val_iou[-1][5],
-                                           'iou of class 6': val_iou[-1][6],
-                                           'iou of class 7': val_iou[-1][7]}, epoch)
+                                            'iou of class 1': val_iou[-1][1],
+                                            'iou of class 2': val_iou[-1][2],
+                                            'iou of class 3': val_iou[-1][3],
+                                            'iou of class 4': val_iou[-1][4],
+                                            'iou of class 5': val_iou[-1][5],
+                                            'iou of class 6': val_iou[-1][6],
+                                            'iou of class 7': val_iou[-1][7]}, epoch)
 
         print('epoch: {}\tloss_full: {:.5f}\tloss_d: {:.5f}\tloss_semi: {:.5f}\tmean IOU: {:.3f}'
             .format(epoch, losses_full[-1], losses_d[-1], losses_semi[-1], mean_iou[-1]))

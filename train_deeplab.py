@@ -184,7 +184,7 @@ def main(config, device):
 
 
     ''' DataLoader '''
-    train_data_with_label = PartAffordanceDataset('train_with_label.csv',
+    train_data_with_label = PartAffordanceDataset('train.csv',
                                             transform=transforms.Compose([
                                                 CenterCrop(),
                                                 ToTensor(),
@@ -290,13 +290,13 @@ def main(config, device):
             writer.add_scalar("loss_full", losses_full[-1], epoch)
             writer.add_scalar("mean_iou", mean_iou[-1], epoch)
             writer.add_scalars("class_IoU", {'iou of class 0': val_iou[-1][0],
-                                           'iou of class 1': val_iou[-1][1],
-                                           'iou of class 2': val_iou[-1][2],
-                                           'iou of class 3': val_iou[-1][3],
-                                           'iou of class 4': val_iou[-1][4],
-                                           'iou of class 5': val_iou[-1][5],
-                                           'iou of class 6': val_iou[-1][6],
-                                           'iou of class 7': val_iou[-1][7]}, epoch)
+                                            'iou of class 1': val_iou[-1][1],
+                                            'iou of class 2': val_iou[-1][2],
+                                            'iou of class 3': val_iou[-1][3],
+                                            'iou of class 4': val_iou[-1][4],
+                                            'iou of class 5': val_iou[-1][5],
+                                            'iou of class 6': val_iou[-1][6],
+                                            'iou of class 7': val_iou[-1][7]}, epoch)
 
         print('epoch: {}\tloss_full: {:.5f}\tmean IOU: {:.3f}'.format(epoch, losses_full[-1], mean_iou[-1]))
 

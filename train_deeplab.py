@@ -272,7 +272,7 @@ def main(config, device):
             
             epoch_loss_full += loss_full
 
-        losses_full.appned(epoch_loss_full / i)
+        losses_full.append(epoch_loss_full / i)
 
 
         # validation

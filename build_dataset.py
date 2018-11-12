@@ -19,9 +19,9 @@ for path in path_list:
 
 for i, path in enumerate(image_path_list_train):
     if i%5 == 0:
-        image_path_list_train_with_label.append(path)
-    else:
         image_path_list_train_without_label.append(path)
+    else:
+        image_path_list_train_with_label.append(path)
 
 
 class_path_list_train_with_label = []

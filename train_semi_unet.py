@@ -236,14 +236,14 @@ def main(config, device):
 
 
     ''' DataLoader '''
-    train_data_with_label = PartAffordanceDataset('train_with_label.csv',
+    train_data_with_label = PartAffordanceDataset('train_with_label_4to1.csv',
                                             transform=transforms.Compose([
                                                 CenterCrop(),
                                                 ToTensor(),
                                                 Normalize()
                                             ]))
 
-    train_data_without_label = PartAffordanceDatasetWithoutLabel('train_without_label.csv',
+    train_data_without_label = PartAffordanceDatasetWithoutLabel('train_without_label_4to1.csv',
                                             transform=transforms.Compose([
                                                 CenterCrop(),
                                                 ToTensor(),

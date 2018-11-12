@@ -142,7 +142,7 @@ def eval_model(model, test_loader, device='cpu'):
             ypred = model(x)    # ypred.shape => (N, 8, H/8, W/8)
             ypred = F.interpolate(ypred, size=(256, 320), mode='bilinear', align_corners=True)
             _, ypred = ypred.max(1)    # y_pred.shape => (N, 256, 320)
- 
+
         for i in range(8):
             y_i = (y == i)           
             ypred_i = (ypred == i)   
@@ -208,8 +208,9 @@ def main(config, device):
 
     model.apply(init_weights)
 
-    state_dict = torch.load(CONFIG.pretrained_model)
-    model.load_state_dict(state_dict, strict=False)
+    if CONFIG.pretrained_model is not None:
+        state_dict = torch.load(CONFIG.pretrained_model)
+        model.load_state_dict(state_dict, strict=False)
     
     model.to(args.device)
 
@@ -238,10 +239,6 @@ def main(config, device):
         criterion_ce_full = nn.CrossEntropyLoss(weight=class_weight.to(args.device))
     else:
         criterion_ce_full = nn.CrossEntropyLoss()
-
-    # supplementary constant for discriminator
-    ones = torch.ones(CONFIG.batch_size, 256, 320).to(args.device)
-    zeros = torch.zeros(CONFIG.batch_size, 256, 320).to(args.device)
 
 
     ''' training '''

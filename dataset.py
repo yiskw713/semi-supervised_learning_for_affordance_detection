@@ -68,16 +68,16 @@ class PartAffordanceDatasetWithoutLabel(Dataset):
 def crop_center_numpy(array, crop_height, crop_weight):
     h, w = array.shape
     return array[h//2 - crop_height//2: h//2 + crop_height//2,
-                 w//2 - crop_weight//2: w//2 + crop_weight//2
+                w//2 - crop_weight//2: w//2 + crop_weight//2
                 ]
 
 
 def crop_center_pil_image(pil_img, crop_height, crop_width):
     w, h = pil_img.size
     return pil_img.crop(((w - crop_width) // 2,
-                         (h - crop_height) // 2,
-                         (w + crop_width) // 2,
-                         (h + crop_height) // 2))
+                        (h - crop_height) // 2,
+                        (w + crop_width) // 2,
+                        (h + crop_height) // 2))
 
 
 class CenterCrop(object):

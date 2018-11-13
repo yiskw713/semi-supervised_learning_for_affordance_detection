@@ -1,4 +1,4 @@
-class_weight_flag: False
+class_weight_flag: True
 batch_size: 10
 num_workers: 4
 max_epoch: 100

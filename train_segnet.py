@@ -364,11 +364,11 @@ def main(config, device):
         if best_iou < mean_iou[-1]:
             best_iou = mean_iou[-1]
             torch.save(model.state_dict(), CONFIG.result_path + '/best_iou_model.prm')
-            torch.save(model_d.state_dict(), CONFIG.result_path + '/best_iou_model_d.prm')
+#            torch.save(model_d.state_dict(), CONFIG.result_path + '/best_iou_model_d.prm')
 
         if epoch%50 == 0 and epoch != 0:
             torch.save(model.state_dict(), CONFIG.result_path + '/epoch_{}_model.prm'.format(epoch))
-            torch.save(model_d.state_dict(), CONFIG.result_path + '/epoch_{}_model_d.prm'.format(epoch))
+#            torch.save(model_d.state_dict(), CONFIG.result_path + '/epoch_{}_model_d.prm'.format(epoch))
 
         if writer is not None:
             writer.add_scalar("loss_full", losses_full[-1], epoch)
@@ -388,7 +388,7 @@ def main(config, device):
             .format(epoch, losses_full[-1], losses_d[-1], losses_semi[-1], mean_iou[-1]))
 
     torch.save(model.state_dict(), CONFIG.result_path + '/final_model.prm')
-    torch.save(model_d.state_dict(), CONFIG.result_path + '/final_model_d.prm')
+#    torch.save(model_d.state_dict(), CONFIG.result_path + '/final_model_d.prm')
 
 if __name__ == '__main__':
     main(args.config, args.device)

@@ -236,7 +236,7 @@ def main(config, device):
 
 
     ''' DataLoader '''
-    train_data_with_label = PartAffordanceDataset('train.csv',
+    train_data_with_label = PartAffordanceDataset('train_with_label_4to1.csv',
                                             transform=transforms.Compose([
                                                 CenterCrop(),
                                                 ToTensor(),
@@ -264,17 +264,17 @@ def main(config, device):
     
     ''' define model, optimizer, loss '''
     model = SegNetBasic(3, CONFIG.n_classes)
-    # model_d = Discriminator(CONFIG.n_classes)
+    model_d = Discriminator(CONFIG.n_classes)
 
     model.apply(init_weights)
-    # model_d.apply(init_weights)
+    model_d.apply(init_weights)
     
     model.to(args.device)
-    # model_d.to(args.device)
+    model_d.to(args.device)
 
     optimizer = optim.Adam(model.parameters(), lr=CONFIG.learning_rate)
 
-    # optimizer_d = optim.Adam(model_d.parameters(), lr=CONFIG.learning_rate_d,)
+    optimizer_d = optim.Adam(model_d.parameters(), lr=CONFIG.learning_rate_d,)
 
     if CONFIG.class_weight_flag:
         class_weight = torch.tensor([0.0057, 0.4689, 1.0000, 1.2993, 
@@ -307,7 +307,7 @@ def main(config, device):
         epoch_loss_semi = 0.0
         
         # only supervised learning
-        if epoch < 200:
+        if epoch < 1:
             for i, sample in enumerate(train_loader_with_label):
 
                 loss_full = full_train(model, sample, criterion_ce_full, optimizer, args.device)
@@ -319,42 +319,42 @@ def main(config, device):
             losses_semi.append(0.0)
 
 
-        # # adversarial and supervised learning
-        # if 200 <= epoch < 250:
-        #     for i, sample in enumerate(train_loader_with_label):
+        # adversarial and supervised learning
+        if 1 <= epoch < 2:
+            for i, sample in enumerate(train_loader_with_label):
                 
-        #         loss_full, loss_d = adv_train(
-        #                                 model, model_d, sample, criterion_ce_full, criterion_bce,
-        #                                 optimizer, optimizer_d, ones, zeros, args.device)
+                loss_full, loss_d = adv_train(
+                                        model, model_d, sample, criterion_ce_full, criterion_bce,
+                                        optimizer, optimizer_d, ones, zeros, args.device)
                 
-        #         epoch_loss_full += loss_full
-        #         epoch_loss_d += loss_d
+                epoch_loss_full += loss_full
+                epoch_loss_d += loss_d
                 
-        #     losses_full.append(epoch_loss_full / i)   # mean loss over all samples
-        #     losses_d.append(epoch_loss_d / i)
-        #     losses_semi.append(0.0)
+            losses_full.append(epoch_loss_full / i)   # mean loss over all samples
+            losses_d.append(epoch_loss_d / i)
+            losses_semi.append(0.0)
             
         
-        # # semi-supervised learning
-        # if epoch >= 250:
-        #     for i, (sample1, sample2) in enumerate(zip(train_loader_with_label, train_loader_without_label)):
+        # semi-supervised learning
+        if epoch >= 2:
+            for i, (sample1, sample2) in enumerate(zip(train_loader_with_label, train_loader_without_label)):
                 
-        #         loss_full, loss_d = adv_train(
-        #                                 model, model_d, sample1, criterion_ce_full, criterion_bce,
-        #                                 optimizer, optimizer_d, ones, zeros, args.device)
+                loss_full, loss_d = adv_train(
+                                        model, model_d, sample1, criterion_ce_full, criterion_bce,
+                                        optimizer, optimizer_d, ones, zeros, args.device)
                 
-        #         epoch_loss_full += loss_full
-        #         epoch_loss_d += loss_d
+                epoch_loss_full += loss_full
+                epoch_loss_d += loss_d
 
-        #         loss_semi = semi_train(
-        #                                 model, model_d, sample2, criterion_ce_semi, criterion_bce,
-        #                                 optimizer, optimizer_d, ones, zeros, args.device)
+                loss_semi = semi_train(
+                                        model, model_d, sample2, criterion_ce_semi, criterion_bce,
+                                        optimizer, optimizer_d, ones, zeros, args.device)
 
-        #         epoch_loss_semi += loss_semi
+                epoch_loss_semi += loss_semi
 
-        #     losses_full.append(epoch_loss_full / i)   # mean loss over all samples
-        #     losses_d.append(epoch_loss_d / i)
-        #     losses_semi.append(epoch_loss_semi / i)
+            losses_full.append(epoch_loss_full / i)   # mean loss over all samples
+            losses_d.append(epoch_loss_d / i)
+            losses_semi.append(epoch_loss_semi / i)
 
         
         # validation
@@ -364,11 +364,11 @@ def main(config, device):
         if best_iou < mean_iou[-1]:
             best_iou = mean_iou[-1]
             torch.save(model.state_dict(), CONFIG.result_path + '/best_iou_model.prm')
-#            torch.save(model_d.state_dict(), CONFIG.result_path + '/best_iou_model_d.prm')
+            torch.save(model_d.state_dict(), CONFIG.result_path + '/best_iou_model_d.prm')
 
         if epoch%50 == 0 and epoch != 0:
             torch.save(model.state_dict(), CONFIG.result_path + '/epoch_{}_model.prm'.format(epoch))
-#            torch.save(model_d.state_dict(), CONFIG.result_path + '/epoch_{}_model_d.prm'.format(epoch))
+            torch.save(model_d.state_dict(), CONFIG.result_path + '/epoch_{}_model_d.prm'.format(epoch))
 
         if writer is not None:
             writer.add_scalar("loss_full", losses_full[-1], epoch)
@@ -388,7 +388,7 @@ def main(config, device):
             .format(epoch, losses_full[-1], losses_d[-1], losses_semi[-1], mean_iou[-1]))
 
     torch.save(model.state_dict(), CONFIG.result_path + '/final_model.prm')
-#    torch.save(model_d.state_dict(), CONFIG.result_path + '/final_model_d.prm')
+    torch.save(model_d.state_dict(), CONFIG.result_path + '/final_model_d.prm')
 
 if __name__ == '__main__':
     main(args.config, args.device)

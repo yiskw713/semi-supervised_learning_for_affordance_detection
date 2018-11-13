@@ -2,7 +2,7 @@ class_weight_flag: True
 batch_size: 10
 num_workers: 4
 max_epoch: 100
-learning_rate: 1.0
+learning_rate: 0.001
 learning_rate_d: 0.00001
 n_classes: 8
 writer_flag: True

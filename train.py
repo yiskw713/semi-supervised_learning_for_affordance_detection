@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -18,6 +16,7 @@ import scipy.io
 import tqdm
 
 from addict import Dict
+from itertools import zip_longest
 from PIL import Image, ImageFilter
 from tensorboardX import SummaryWriter
 
@@ -156,8 +155,7 @@ def adv_train(
     h_ = h.detach()    # h_ is for calculating loss for discriminator
     y_ = y.detach()    # y_is for the same purpose.  shape => (N, H, W)
 
-    d_out = model_d(h)    # shape => (N, 1, H/32, W/32)
-    d_out = F.interpolate(d_out, size=(256, 320), mode='bilinear', align_corners=True)    # shape => (N, 1, H, W)
+    d_out = model_d(h)    # shape => (N, 1, H, W)
     d_out = d_out.squeeze()
     
     loss_ce = criterion_ce_full(h, y)
@@ -171,13 +169,11 @@ def adv_train(
 
 
     # train discriminator
-    seg_out = model_d(h_)    # shape => (N, 1, H/32, W/32)
-    seg_out = F.interpolate(seg_out, size=(256, 320), mode='bilinear', align_corners=True)    # shape => (N, 1, H, W)
+    seg_out = model_d(h_)    # shape => (N, 1, H, W)
     seg_out = seg_out.squeeze()
     
     y_ = one_hot(y_, CONFIG.n_classes, device)    # shape => (N, 8, H, W)
-    true_out = model_d(y_)    # shape => (N, 1, H/32, W/32)
-    true_out = F.interpolate(true_out, size=(256, 320), mode='bilinear', align_corners=True)    # shape => (N, 1, H, W)
+    true_out = model_d(y_)    # shape => (N, 1, H, W)
     true_out = true_out.squeeze()
 
     loss_d_fake = criterion_bce(seg_out, zeros[:batch_len])
@@ -215,8 +211,7 @@ def semi_train(
     _, h_ = torch.max(h, dim=1)    # to calculate the crossentropy loss. shape => (N, H, W)
 
     with torch.no_grad():
-        d_out = model_d(h)    # shape => (N, 1, H/32, W/32)
-        d_out = F.interpolate(d_out, size=(256, 320), mode='bilinear', align_corners=True)    # shape => (N, 1, H, W)
+        d_out = model_d(h)    # shape => (N, 1, H, W)
         d_out = d_out.squeeze()
 
     loss_adv = criterion_bce(d_out, ones[:batch_len])
@@ -298,19 +293,19 @@ def main(config, device):
 
 
     ''' DataLoader '''
-    train_data_with_label = PartAffordanceDataset('train_with_label.csv',
+    train_data_with_label = PartAffordanceDataset('train_with_label_4to1.csv',
                                             transform=transforms.Compose([
                                                 CenterCrop(),
                                                 ToTensor(),
                                                 Normalize()
                                             ]))
 
-    train_data_without_label = PartAffordanceDatasetWithoutLabel('train_with_label.csv',
+    train_data_without_label = PartAffordanceDatasetWithoutLabel('train_without_label_4to1.csv',
                                             transform=transforms.Compose([
                                                 CenterCrop(),
                                                 ToTensor(),
                                                 Normalize()
-                                             ]))
+                                            ]))
 
     test_data = PartAffordanceDataset('test.csv',
                                 transform=transforms.Compose([
@@ -479,13 +474,13 @@ def main(config, device):
             writer.add_scalar("loss_semi", losses_semi[-1], epoch)
             writer.add_scalar("mean_iou", mean_iou[-1], epoch)
             writer.add_scalars("class_IoU", {'iou of class 0': val_iou[-1][0],
-                                           'iou of class 1': val_iou[-1][1],
-                                           'iou of class 2': val_iou[-1][2],
-                                           'iou of class 3': val_iou[-1][3],
-                                           'iou of class 4': val_iou[-1][4],
-                                           'iou of class 5': val_iou[-1][5],
-                                           'iou of class 6': val_iou[-1][6],
-                                           'iou of class 7': val_iou[-1][7]}, epoch)
+                                            'iou of class 1': val_iou[-1][1],
+                                            'iou of class 2': val_iou[-1][2],
+                                            'iou of class 3': val_iou[-1][3],
+                                            'iou of class 4': val_iou[-1][4],
+                                            'iou of class 5': val_iou[-1][5],
+                                            'iou of class 6': val_iou[-1][6],
+                                            'iou of class 7': val_iou[-1][7]}, epoch)
 
         print('epoch: {}\tloss_full: {:.5f}\tloss_d: {:.5f}\tloss_semi: {:.5f}\tmean IOU: {:.3f}'
             .format(epoch, losses_full[-1], losses_d[-1], losses_semi[-1], mean_iou[-1]))

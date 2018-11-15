@@ -16,6 +16,7 @@ import scipy.io
 import tqdm
 
 from addict import Dict
+from itertools import zip_longest
 from PIL import Image, ImageFilter
 from tensorboardX import SummaryWriter
 
@@ -98,8 +99,7 @@ def adv_train(
     h_ = h.detach()    # h_ is for calculating loss for discriminator
     y_ = y.detach()    # y_is for the same purpose.  shape => (N, H, W)
 
-    d_out = model_d(h)    # shape => (N, 1, H/32, W/32)
-    d_out = F.interpolate(d_out, size=(256, 320), mode='bilinear', align_corners=True)    # shape => (N, 1, H, W)
+    d_out = model_d(h)    # shape => (N, 1, H, W)
     d_out = d_out.squeeze()
     
     loss_ce = criterion_ce_full(h, y)
@@ -113,13 +113,11 @@ def adv_train(
 
 
     # train discriminator
-    seg_out = model_d(h_)    # shape => (N, 1, H/32, W/32)
-    seg_out = F.interpolate(seg_out, size=(256, 320), mode='bilinear', align_corners=True)    # shape => (N, 1, H, W)
+    seg_out = model_d(h_)    # shape => (N, 1, H, W)
     seg_out = seg_out.squeeze()
     
     y_ = one_hot(y_, 8, device)    # shape => (N, 8, H, W)
-    true_out = model_d(y_)    # shape => (N, 1, H/32, W/32)
-    true_out = F.interpolate(true_out, size=(256, 320), mode='bilinear', align_corners=True)    # shape => (N, 1, H, W)
+    true_out = model_d(y_)    # shape => (N, 1, H, W)
     true_out = true_out.squeeze()
 
     loss_d_fake = criterion_bce(seg_out, zeros[:batch_len])
@@ -155,8 +153,7 @@ def semi_train(
     _, h_ = torch.max(h, dim=1)    # to calculate the crossentropy loss. shape => (N, H, W)
 
     with torch.no_grad():
-        d_out = model_d(h)    # shape => (N, 1, H/32, W/32)
-        d_out = F.interpolate(d_out, size=(256, 320), mode='bilinear', align_corners=True)    # shape => (N, 1, H, W)
+        d_out = model_d(h)    # shape => (N, 1, H, W)
         d_out = d_out.squeeze()
 
     loss_adv = criterion_bce(d_out, ones[:batch_len])
@@ -284,7 +281,7 @@ def main(config, device):
         criterion_ce_full = nn.CrossEntropyLoss()
 
     criterion_ce_semi = nn.CrossEntropyLoss(ignore_index=255)
-    criterion_bce = nn.BCEWithLogitsLoss()
+    criterion_bce = nn.BCELoss()
 
     # supplementary constant for discriminator
     ones = torch.ones(CONFIG.batch_size, 256, 320).to(args.device)
@@ -307,7 +304,7 @@ def main(config, device):
         epoch_loss_semi = 0.0
         
         # only supervised learning
-        if epoch < 1:
+        if epoch < 50:
             for i, sample in enumerate(train_loader_with_label):
 
                 loss_full = full_train(model, sample, criterion_ce_full, optimizer, args.device)
@@ -320,7 +317,7 @@ def main(config, device):
 
 
         # adversarial and supervised learning
-        if 1 <= epoch < 2:
+        if 50 <= epoch < 100:
             for i, sample in enumerate(train_loader_with_label):
                 
                 loss_full, loss_d = adv_train(
@@ -336,8 +333,10 @@ def main(config, device):
             
         
         # semi-supervised learning
-        if epoch >= 2:
-            for i, (sample1, sample2) in enumerate(zip(train_loader_with_label, train_loader_without_label)):
+        if epoch >= 100:
+            cnt_semi = 0
+            
+            for i, (sample1, sample2) in enumerate(zip_longest(train_loader_with_label, train_loader_without_label)):
                 
                 loss_full, loss_d = adv_train(
                                         model, model_d, sample1, criterion_ce_full, criterion_bce,
@@ -346,15 +345,16 @@ def main(config, device):
                 epoch_loss_full += loss_full
                 epoch_loss_d += loss_d
 
-                loss_semi = semi_train(
-                                        model, model_d, sample2, criterion_ce_semi, criterion_bce,
-                                        optimizer, optimizer_d, ones, zeros, args.device)
-
-                epoch_loss_semi += loss_semi
+                if sample2 is not None:
+                    loss_semi = semi_train(
+                                            model, model_d, sample2, criterion_ce_semi, criterion_bce,
+                                            optimizer, optimizer_d, ones, zeros, args.device)
+                    epoch_loss_semi += loss_semi
+                    cnt_semi += 1
 
             losses_full.append(epoch_loss_full / i)   # mean loss over all samples
             losses_d.append(epoch_loss_d / i)
-            losses_semi.append(epoch_loss_semi / i)
+            losses_semi.append(epoch_loss_semi / cnt_semi)
 
         
         # validation

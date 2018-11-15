@@ -1,9 +1,12 @@
 class_weight_flag: True
 batch_size: 10
 num_workers: 4
-max_epoch: 400
+max_epoch: 200
 learning_rate: 0.001
-learning_rate_d: 0.000001
+learning_rate_d: 0.0000001
 n_classes: 8
 writer_flag: True
 result_path: ./result_segnet
+
+
+# not use specific tech in D

@@ -24,6 +24,8 @@ class Discriminator(nn.Module):
         x = self.conv4(x)
         x = self.leaky_relu(x)
         x = self.conv5(x)         # output => (N, 1, H/32, W/32)
+        x = F.interpolate(x, size=(256, 320), mode='bilinear', align_corners=True)    # shape => (N, 1, H, W)
+        x = F.sigmoid(x)
 
         return x
 

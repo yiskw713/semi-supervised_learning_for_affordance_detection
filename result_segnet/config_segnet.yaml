@@ -1,4 +1,5 @@
 class_weight_flag: True
+noisy_label_flag: True
 batch_size: 10
 num_workers: 4
 max_epoch: 200

@@ -79,7 +79,7 @@ def full_train(model, sample, criterion_ce_full, optimizer, device):
 
 def adv_train(
         model, model_d, sample, criterion_ce_full, criterion_bce, 
-        optimizer, optimizer_d, ones, zeros, device):
+        optimizer, optimizer_d, real, fake, device):
 
     ''' full supervised and adversarial learning '''
     
@@ -103,7 +103,7 @@ def adv_train(
     d_out = d_out.squeeze()
     
     loss_ce = criterion_ce_full(h, y)
-    loss_adv = criterion_bce(d_out, ones[:batch_len])
+    loss_adv = criterion_bce(d_out, real[:batch_len])
     loss_full = loss_ce + 0.01 * loss_adv
 
     optimizer.zero_grad()
@@ -120,8 +120,8 @@ def adv_train(
     true_out = model_d(y_)    # shape => (N, 1, H, W)
     true_out = true_out.squeeze()
 
-    loss_d_fake = criterion_bce(seg_out, zeros[:batch_len])
-    loss_d_real = criterion_bce(true_out, ones[:batch_len])
+    loss_d_fake = criterion_bce(seg_out, fake[:batch_len])
+    loss_d_real = criterion_bce(true_out, real[:batch_len])
     loss_d = loss_d_fake + loss_d_real
 
     optimizer.zero_grad()
@@ -135,7 +135,7 @@ def adv_train(
 
 def semi_train(
         model, model_d, sample, criterion_ce_semi, criterion_bce, 
-        optimizer, optimizer_d, ones, zeros, device):
+        optimizer, optimizer_d, real, fake, config, device):
 
     ''' semi supervised learning '''
     
@@ -156,12 +156,15 @@ def semi_train(
         d_out = model_d(h)    # shape => (N, 1, H, W)
         d_out = d_out.squeeze()
 
-    loss_adv = criterion_bce(d_out, ones[:batch_len])
+    loss_adv = criterion_bce(d_out, real[:batch_len])
 
 
     # if the pixel value of the output from discriminator is more than a threshold,
     # its value is viewd as one from true label. Else, its value is ignored(value=255).
-    h_[d_out < 0.2] = 255
+    if config.noisy_label_flag:
+        h_[d_out < 0.35] = 255
+    else:
+        h_[d_out < 0.2] = 255
 
     loss_ce = criterion_ce_semi(h, h_)
     loss_semi = 0.001 * loss_adv + 0.1 * loss_ce
@@ -284,8 +287,12 @@ def main(config, device):
     criterion_bce = nn.BCELoss()
 
     # supplementary constant for discriminator
-    ones = torch.ones(CONFIG.batch_size, 256, 320).to(args.device)
-    zeros = torch.zeros(CONFIG.batch_size, 256, 320).to(args.device)
+    if CONFIG.noisy_label_flag:
+        real = torch.full((256, 320), 0.8).to(args.device)
+        fake = torch.full((256, 320), 0.2).to(args.device)        
+    else:
+        real = torch.ones(CONFIG.batch_size, 256, 320).to(args.device)
+        fake = torch.zeros(CONFIG.batch_size, 256, 320).to(args.device)
 
 
     ''' training '''
@@ -322,7 +329,7 @@ def main(config, device):
                 
                 loss_full, loss_d = adv_train(
                                         model, model_d, sample, criterion_ce_full, criterion_bce,
-                                        optimizer, optimizer_d, ones, zeros, args.device)
+                                        optimizer, optimizer_d, real, fake, args.device)
                 
                 epoch_loss_full += loss_full
                 epoch_loss_d += loss_d
@@ -340,7 +347,7 @@ def main(config, device):
                 
                 loss_full, loss_d = adv_train(
                                         model, model_d, sample1, criterion_ce_full, criterion_bce,
-                                        optimizer, optimizer_d, ones, zeros, args.device)
+                                        optimizer, optimizer_d, real, fake, args.device)
                 
                 epoch_loss_full += loss_full
                 epoch_loss_d += loss_d
@@ -348,7 +355,7 @@ def main(config, device):
                 if sample2 is not None:
                     loss_semi = semi_train(
                                             model, model_d, sample2, criterion_ce_semi, criterion_bce,
-                                            optimizer, optimizer_d, ones, zeros, args.device)
+                                            optimizer, optimizer_d, real, fake, CONFIG, args.device)
                     epoch_loss_semi += loss_semi
                     cnt_semi += 1
 

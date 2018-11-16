@@ -184,7 +184,7 @@ def main(config, device):
 
 
     ''' DataLoader '''
-    train_data_with_label = PartAffordanceDataset('train.csv',
+    train_data_with_label = PartAffordanceDataset('./part-affordance-dataset/train.csv',
                                             transform=transforms.Compose([
                                                 CenterCrop(),
                                                 ToTensor(),
@@ -192,7 +192,7 @@ def main(config, device):
                                             ]))
 
 
-    test_data = PartAffordanceDataset('test.csv',
+    test_data = PartAffordanceDataset('./part-affordance-dataset/test.csv',
                                 transform=transforms.Compose([
                                     CenterCrop(),
                                     ToTensor(),

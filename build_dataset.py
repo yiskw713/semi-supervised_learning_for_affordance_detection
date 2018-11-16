@@ -18,7 +18,7 @@ for path in path_list:
 
 
 for i, path in enumerate(image_path_list_train):
-    if i%5 == 0:
+    if i%3 == 0:
         image_path_list_train_without_label.append(path)
     else:
         image_path_list_train_with_label.append(path)
@@ -52,6 +52,6 @@ df_test = pd.DataFrame({
     columns=["image_path", "class_path"]
 )
 
-df_train_with_label.to_csv('train_with_label_4to1.csv', index=None)
-df_train_without_label.to_csv('train_without_label_4to1.csv', index=None)
+df_train_with_label.to_csv('./part-affordance-dataset/train_with_label_2to1.csv', index=None)
+df_train_without_label.to_csv('./part-affordance-dataset/train_without_label_2to1.csv', index=None)
 df_test.to_csv('test.csv', index=None)

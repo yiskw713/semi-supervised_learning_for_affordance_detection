@@ -34,19 +34,8 @@ def one_hot(label, n_classes, device):
     return one_hot_label
     
 
-''' scheduler for learning rate '''
 
-def poly_lr_scheduler(optimizer, init_lr, iter, lr_decay_iter, max_iter, power):
-    if iter % lr_decay_iter or iter > max_iter:
-        return None
-    new_lr = init_lr * (1 - (float(iter) / max_iter)) ** power
-    optimizer.param_groups[0]["lr"] = new_lr
-    optimizer.param_groups[1]["lr"] = 10 * new_lr
-    optimizer.param_groups[2]["lr"] = 20 * new_lr
-
-
-
-''' model, weight initialization, get params '''
+''' model, weight initialization '''
 
 def init_weights(m):
     if isinstance(m, nn.Conv2d):
@@ -70,29 +59,6 @@ def DeepLabV2_ResNet101_MSC(n_classes):
         ),
         pyramids=[0.5, 0.75],
     )
-
-
-def get_params(model, key):
-    # For Dilated FCN
-    if key == "1x":
-        for m in model.named_modules():
-            if "layer" in m[0]:
-                if isinstance(m[1], nn.Conv2d):
-                    for p in m[1].parameters():
-                        yield p
-    # For conv weight in the ASPP module
-    if key == "10x":
-        for m in model.named_modules():
-            if "aspp" in m[0]:
-                if isinstance(m[1], nn.Conv2d):
-                    yield m[1].weight
-    # For conv bias in the ASPP module
-    if key == "20x":
-        for m in model.named_modules():
-            if "aspp" in m[0]:
-                if isinstance(m[1], nn.Conv2d):
-                    yield m[1].bias
-
 
 
 ''' training '''
@@ -212,24 +178,7 @@ def main(config, device):
     
     model.to(args.device)
 
-    optimizer = optim.SGD(
-                        params=[{
-                            "params": get_params(model, key="1x"),
-                            "lr": CONFIG.learning_rate,
-                            "weight_decay": 5.0e-4,
-                                },
-                                {
-                            "params": get_params(model, key="10x"),
-                            "lr": 10 * CONFIG.learning_rate,
-                            "weight_decay": 5.0e-4,
-                                },
-                                {
-                                "params": get_params(model, key="20x"),
-                                "lr": 20 * CONFIG.learning_rate,
-                                "weight_decay": 0.0,
-                                }],
-                        momentum=0.9)
-
+    optimizer - optim.adam(model.parameters(), lr=CONFIG.learning_rate)
 
     if CONFIG.class_weight_flag:
         class_weight = torch.tensor([0.0057, 0.4689, 1.0000, 1.2993, 
@@ -249,16 +198,6 @@ def main(config, device):
     for epoch in tqdm.tqdm(range(CONFIG.max_epoch)):
         
         epoch_loss_full = 0.0
-        
-        poly_lr_scheduler(
-            optimizer=optimizer,
-            init_lr=CONFIG.learning_rate,
-            iter=epoch - 1,
-            lr_decay_iter=10,
-            max_iter=CONFIG.max_epoch,
-            power=0.9,
-        )
-
 
     # only supervised learning
         for i, sample in enumerate(train_loader_with_label):

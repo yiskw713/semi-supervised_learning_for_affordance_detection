@@ -274,7 +274,7 @@ def main(config, device):
 
     optimizer = optim.Adam(model.parameters(), lr=CONFIG.learning_rate)
 
-    optimizer_d = optim.Adam(model_d.parameters(), lr=CONFIG.learning_rate_d,)
+    optimizer_d = optim.Adam(model_d.parameters(), lr=CONFIG.learning_rate_d)
 
     if CONFIG.class_weight_flag:
         class_weight = torch.tensor([0.0057, 0.4689, 1.0000, 1.2993, 

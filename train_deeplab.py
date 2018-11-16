@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -41,7 +39,7 @@ def one_hot(label, n_classes, device):
 def poly_lr_scheduler(optimizer, init_lr, iter, lr_decay_iter, max_iter, power):
     if iter % lr_decay_iter or iter > max_iter:
         return None
-    new_lr = init_lr * (1 - float(iter) / max_iter) ** power
+    new_lr = init_lr * (1 - (float(iter) / max_iter)) ** power
     optimizer.param_groups[0]["lr"] = new_lr
     optimizer.param_groups[1]["lr"] = 10 * new_lr
     optimizer.param_groups[2]["lr"] = 20 * new_lr
@@ -119,7 +117,7 @@ def full_train(model, sample, criterion_ce_full, optimizer, device):
     optimizer.zero_grad()
     loss_ce.backward()
     optimizer.step()
-
+    
     return loss_ce.item()
 
 

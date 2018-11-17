@@ -1,9 +1,0 @@
-class_weight_flag: True
-batch_size: 16
-num_workers: 0
-max_epoch: 1000
-learning_rate: 0.1
-learning_rate_d: 0.00001
-n_classes: 8
-writer_flag: True
-result_path: ./result_unet

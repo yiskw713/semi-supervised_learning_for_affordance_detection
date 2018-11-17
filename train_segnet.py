@@ -288,8 +288,8 @@ def main(config, device):
 
     # supplementary constant for discriminator
     if CONFIG.noisy_label_flag:
-        real = torch.full((256, 320), 0.8).to(args.device)
-        fake = torch.full((256, 320), 0.2).to(args.device)        
+        real = torch.full((CONFIG.batch_size, 256, 320), 0.8).to(args.device)
+        fake = torch.full((CONFIG.batch_size, 256, 320), 0.2).to(args.device)        
     else:
         real = torch.ones(CONFIG.batch_size, 256, 320).to(args.device)
         fake = torch.zeros(CONFIG.batch_size, 256, 320).to(args.device)

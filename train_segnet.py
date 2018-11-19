@@ -30,8 +30,8 @@ from dataset import CenterCrop, ToTensor, Normalize
 
 ''' one-hot representation '''
 
-def one_hot(label, n_classes, device, requires_grad=True):
-    one_hot_label = torch.eye(n_classes, dtype=torch.long, requires_grad=requires_grad, device=device)[label].transpose(1, 3).transpose(2, 3)
+def one_hot(label, n_classes, device):
+    one_hot_label = torch.eye(n_classes, dtype=torch.long, device=device)[label].transpose(1, 3).transpose(2, 3)
     return one_hot_label
     
 
@@ -201,8 +201,8 @@ def semi_train(
 def eval_model(model, test_loader, device='cpu'):
     model.eval()
     
-    intersections = torch.zeros(8)   # the dataset has 8 classes including background
-    unions = torch.zeros(8)
+    intersections = torch.zeros(8).to(device)   # the dataset has 8 classes including background
+    unions = torch.zeros(8).to(device)
     
     for sample in test_loader:
         x, y = sample['image'], sample['class']
@@ -211,14 +211,13 @@ def eval_model(model, test_loader, device='cpu'):
         y = y.to(device)
         
         with torch.no_grad():
-            ypred = model(x)    # ypred.shape => (N, 8, H/8, W/8)
-            ypred = F.interpolate(ypred, size=(256, 320), mode='bilinear', align_corners=True)
+            ypred = model(x)    # ypred.shape => (N, 8, H, W)
             _, ypred = ypred.max(1)    # y_pred.shape => (N, 256, 320)
 
             p = one_hot(ypred, 8, device)
             t = one_hot(y, 8, device)
             
-            intersection = torch.sum(p & t, (0,2,3))
+            intersection = torch.sum(p & t, (0, 2, 3))
             union = torch.sum(p | t, (0, 2, 3))
             
             intersections += intersection.float()

@@ -11,9 +11,10 @@ from torchvision.utils import save_image
 import argparse
 import numpy as np
 import pandas as pd
-import yaml
+import random
 import scipy.io
 import tqdm
+import yaml
 
 from addict import Dict
 from itertools import zip_longest
@@ -29,13 +30,13 @@ from dataset import CenterCrop, ToTensor, Normalize
 
 ''' one-hot representation '''
 
-def one_hot(label, n_classes, device):
-    one_hot_label = torch.eye(n_classes, requires_grad=True, device=device)[label].transpose(1, 3).transpose(2, 3)
+def one_hot(label, n_classes, device, requires_grad=True):
+    one_hot_label = torch.eye(n_classes, dtype=torch.long, requires_grad=requires_grad, device=device)[label].transpose(1, 3).transpose(2, 3)
     return one_hot_label
     
 
 
-''' model, weight initialization, get params '''
+''' model, weight initialization '''
 
 def init_weights(m):
     if isinstance(m, nn.Conv2d):
@@ -50,6 +51,7 @@ def init_weights(m):
         nn.init.constant_(m.weight, 1)
         if m.bias is not None:
             nn.init.constant_(m.bias, 0)
+
 
 
 ''' training '''
@@ -79,7 +81,7 @@ def full_train(model, sample, criterion_ce_full, optimizer, device):
 
 def adv_train(
         model, model_d, sample, criterion_ce_full, criterion_bce, 
-        optimizer, optimizer_d, real, fake, device):
+        optimizer, optimizer_d, real, fake, config, device):
 
     ''' full supervised and adversarial learning '''
     
@@ -99,6 +101,9 @@ def adv_train(
     h_ = h.detach()    # h_ is for calculating loss for discriminator
     y_ = y.detach()    # y_is for the same purpose.  shape => (N, H, W)
 
+    if config.gaussian:
+        h += torch.rand((batch_len, 8, 256, 320))
+
     d_out = model_d(h)    # shape => (N, 1, H, W)
     d_out = d_out.squeeze()
     
@@ -113,6 +118,9 @@ def adv_train(
 
 
     # train discriminator
+    if config.gaussian:
+        h_ += torch.rand((batch_len, 8, 256, 320))
+
     seg_out = model_d(h_)    # shape => (N, 1, H, W)
     seg_out = seg_out.squeeze()
     
@@ -120,8 +128,15 @@ def adv_train(
     true_out = model_d(y_)    # shape => (N, 1, H, W)
     true_out = true_out.squeeze()
 
-    loss_d_fake = criterion_bce(seg_out, fake[:batch_len])
-    loss_d_real = criterion_bce(true_out, real[:batch_len])
+    if config.flip_label:
+        if random.random() > 0.2:
+            loss_d_fake = criterion_bce(seg_out, fake[:batch_len])
+            loss_d_real = criterion_bce(true_out, real[:batch_len])
+        else:
+            loss_d_fake = criterion_bce(seg_out, real[:batch_len])
+            loss_d_real = criterion_bce(true_out, fake[:batch_len])
+    
+    
     loss_d = loss_d_fake + loss_d_real
 
     optimizer.zero_grad()
@@ -153,6 +168,9 @@ def semi_train(
     _, h_ = torch.max(h, dim=1)    # to calculate the crossentropy loss. shape => (N, H, W)
 
     with torch.no_grad():
+        if config.gaussian:
+            h += torch.rand((batch_len, 8, 256, 320))
+        
         d_out = model_d(h)    # shape => (N, 1, H, W)
         d_out = d_out.squeeze()
 
@@ -183,8 +201,8 @@ def semi_train(
 def eval_model(model, test_loader, device='cpu'):
     model.eval()
     
-    intersection = torch.zeros(8)   # the dataset has 8 classes including background
-    union = torch.zeros(8)
+    intersections = torch.zeros(8)   # the dataset has 8 classes including background
+    unions = torch.zeros(8)
     
     for sample in test_loader:
         x, y = sample['image'], sample['class']
@@ -193,19 +211,21 @@ def eval_model(model, test_loader, device='cpu'):
         y = y.to(device)
         
         with torch.no_grad():
-            ypred = model(x)    # ypred.shape => (N, 8, H, W)
+            ypred = model(x)    # ypred.shape => (N, 8, H/8, W/8)
+            ypred = F.interpolate(ypred, size=(256, 320), mode='bilinear', align_corners=True)
             _, ypred = ypred.max(1)    # y_pred.shape => (N, 256, 320)
 
-        for i in range(8):
-            y_i = (y == i)           
-            ypred_i = (ypred == i)   
+            p = one_hot(ypred, 8, device)
+            t = one_hot(y, 8, device)
             
-            inter = (y_i.byte() & ypred_i.byte()).float().sum().to('cpu')
-            intersection[i] += inter
-            union[i] += (y_i.float().sum() + ypred_i.float().sum()).to('cpu') - inter
+            intersection = torch.sum(p & t, (0,2,3))
+            union = torch.sum(p | t, (0, 2, 3))
+            
+            intersections += intersection.float()
+            unions += union.float()
     
     """ iou[i] is the IoU of class i """
-    iou = intersection / union
+    iou = intersections / unions
     
     return iou
 
@@ -329,7 +349,7 @@ def main(config, device):
                 
                 loss_full, loss_d = adv_train(
                                         model, model_d, sample, criterion_ce_full, criterion_bce,
-                                        optimizer, optimizer_d, real, fake, args.device)
+                                        optimizer, optimizer_d, real, fake, CONFIG, args.device)
                 
                 epoch_loss_full += loss_full
                 epoch_loss_d += loss_d

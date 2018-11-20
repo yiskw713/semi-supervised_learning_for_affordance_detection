@@ -124,7 +124,7 @@ def adv_train(
     seg_out = model_d(h_)    # shape => (N, 1, H, W)
     seg_out = seg_out.squeeze()
     
-    y_ = one_hot(y_, 8, dtype=torch.float, device)    # shape => (N, 8, H, W)
+    y_ = one_hot(y_, 8, torch.float, device)    # shape => (N, 8, H, W)
     true_out = model_d(y_)    # shape => (N, 1, H, W)
     true_out = true_out.squeeze()
 
@@ -214,8 +214,8 @@ def eval_model(model, test_loader, device='cpu'):
             ypred = model(x)    # ypred.shape => (N, 8, H, W)
             _, ypred = ypred.max(1)    # y_pred.shape => (N, 256, 320)
 
-            p = one_hot(ypred, 8, dtype=torch.long, device)
-            t = one_hot(y, 8, dtype=torch.long, device)
+            p = one_hot(ypred, 8, torch.long, device)
+            t = one_hot(y, 8, torch.long, device)
             
             intersection = torch.sum(p & t, (0, 2, 3))
             union = torch.sum(p | t, (0, 2, 3))

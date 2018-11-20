@@ -30,8 +30,8 @@ from dataset import CenterCrop, ToTensor, Normalize
 
 ''' one-hot representation '''
 
-def one_hot(label, n_classes, device):
-    one_hot_label = torch.eye(n_classes, dtype=torch.long, device=device)[label].transpose(1, 3).transpose(2, 3)
+def one_hot(label, n_classes, dtype, device):
+    one_hot_label = torch.eye(n_classes, dtype=dtype, device=device)[label].transpose(1, 3).transpose(2, 3)
     return one_hot_label
     
 
@@ -102,7 +102,7 @@ def adv_train(
     y_ = y.detach()    # y_is for the same purpose.  shape => (N, H, W)
 
     if config.gaussian:
-        h += torch.rand((batch_len, 8, 256, 320))
+        h += torch.rand((batch_len, 8, 256, 320)).to(device)
 
     d_out = model_d(h)    # shape => (N, 1, H, W)
     d_out = d_out.squeeze()
@@ -119,12 +119,12 @@ def adv_train(
 
     # train discriminator
     if config.gaussian:
-        h_ += torch.rand((batch_len, 8, 256, 320))
+        h_ += torch.rand((batch_len, 8, 256, 320)).to(device)
 
     seg_out = model_d(h_)    # shape => (N, 1, H, W)
     seg_out = seg_out.squeeze()
     
-    y_ = one_hot(y_, 8, device)    # shape => (N, 8, H, W)
+    y_ = one_hot(y_, 8, dtype=torch.float, device)    # shape => (N, 8, H, W)
     true_out = model_d(y_)    # shape => (N, 1, H, W)
     true_out = true_out.squeeze()
 
@@ -169,7 +169,7 @@ def semi_train(
 
     with torch.no_grad():
         if config.gaussian:
-            h += torch.rand((batch_len, 8, 256, 320))
+            h += torch.rand((batch_len, 8, 256, 320)).to(device)
         
         d_out = model_d(h)    # shape => (N, 1, H, W)
         d_out = d_out.squeeze()
@@ -214,8 +214,8 @@ def eval_model(model, test_loader, device='cpu'):
             ypred = model(x)    # ypred.shape => (N, 8, H, W)
             _, ypred = ypred.max(1)    # y_pred.shape => (N, 256, 320)
 
-            p = one_hot(ypred, 8, device)
-            t = one_hot(y, 8, device)
+            p = one_hot(ypred, 8, dtype=torch.long, device)
+            t = one_hot(y, 8, dtype=torch.long, device)
             
             intersection = torch.sum(p & t, (0, 2, 3))
             union = torch.sum(p | t, (0, 2, 3))

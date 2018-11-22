@@ -67,7 +67,7 @@ def full_train(model, sample, criterion_ce_full, optimizer, device):
     x = x.to(device)
     y = y.to(device)
 
-    h = model(x)     # shape => (N, 8, H, W)
+    h = model(x)     # shape => (N, n_classes, H, W)
 
     loss_ce = criterion_ce_full(h, y)
 
@@ -96,13 +96,13 @@ def adv_train(
     x = x.to(device)
     y = y.to(device)
 
-    h = model(x)     # shape => (N, 8, H, W)
+    h = model(x)     # shape => (N, n_classes, H, W)
 
     h_ = h.detach()    # h_ is for calculating loss for discriminator
     y_ = y.detach()    # y_is for the same purpose.  shape => (N, H, W)
 
     if config.gaussian:
-        h += torch.rand((batch_len, 8, 256, 320)).to(device)
+        h += torch.rand((batch_len, config.n_classes, 256, 320)).to(device)
 
     d_out = model_d(h)    # shape => (N, 1, H, W)
     d_out = d_out.squeeze()
@@ -119,12 +119,12 @@ def adv_train(
 
     # train discriminator
     if config.gaussian:
-        h_ += torch.rand((batch_len, 8, 256, 320)).to(device)
+        h_ += torch.rand((batch_len, config.n_classes, 256, 320)).to(device)
 
     seg_out = model_d(h_)    # shape => (N, 1, H, W)
     seg_out = seg_out.squeeze()
     
-    y_ = one_hot(y_, 8, torch.float, device)    # shape => (N, 8, H, W)
+    y_ = one_hot(y_, config.n_classes, torch.float, device)    # shape => (N, n_classes, H, W)
     true_out = model_d(y_)    # shape => (N, 1, H, W)
     true_out = true_out.squeeze()
 
@@ -163,13 +163,13 @@ def semi_train(
 
     x = x.to(device)
 
-    h = model(x)     # shape => (N, 8, H, W)
+    h = model(x)     # shape => (N, n_classes, H, W)
 
     _, h_ = torch.max(h, dim=1)    # to calculate the crossentropy loss. shape => (N, H, W)
 
     with torch.no_grad():
         if config.gaussian:
-            h += torch.rand((batch_len, 8, 256, 320)).to(device)
+            h += torch.rand((batch_len, config.n_classes, 256, 320)).to(device)
         
         d_out = model_d(h)    # shape => (N, 1, H, W)
         d_out = d_out.squeeze()
@@ -198,11 +198,11 @@ def semi_train(
 
 ''' validation '''
 
-def eval_model(model, test_loader, device='cpu'):
+def eval_model(model, test_loader, config, device):
     model.eval()
     
-    intersections = torch.zeros(8).to(device)   # the dataset has 8 classes including background
-    unions = torch.zeros(8).to(device)
+    intersections = torch.zeros(config.n_classes).to(device)   # including background
+    unions = torch.zeros(config.n_classes).to(device)
     
     for sample in test_loader:
         x, y = sample['image'], sample['class']
@@ -211,11 +211,11 @@ def eval_model(model, test_loader, device='cpu'):
         y = y.to(device)
         
         with torch.no_grad():
-            ypred = model(x)    # ypred.shape => (N, 8, H, W)
+            ypred = model(x)    # ypred.shape => (N, n_classes, H, W)
             _, ypred = ypred.max(1)    # y_pred.shape => (N, 256, 320)
 
-            p = one_hot(ypred, 8, torch.long, device)
-            t = one_hot(y, 8, torch.long, device)
+            p = one_hot(ypred, config.n_classes, torch.long, device)
+            t = one_hot(y, config.n_classes, torch.long, device)
             
             intersection = torch.sum(p & t, (0, 2, 3))
             union = torch.sum(p | t, (0, 2, 3))
@@ -360,16 +360,19 @@ def main(config, device):
         
         # semi-supervised learning
         if epoch >= 100:
+            cnt_full = 0
             cnt_semi = 0
             
-            for i, (sample1, sample2) in enumerate(zip_longest(train_loader_with_label, train_loader_without_label)):
+            for (sample1, sample2) in zip_longest(train_loader_with_label, train_loader_without_label):
                 
-                loss_full, loss_d = adv_train(
-                                        model, model_d, sample1, criterion_ce_full, criterion_bce,
-                                        optimizer, optimizer_d, real, fake, args.device)
-                
-                epoch_loss_full += loss_full
-                epoch_loss_d += loss_d
+                if sample1 is not None:
+                    loss_full, loss_d = adv_train(
+                                            model, model_d, sample1, criterion_ce_full, criterion_bce,
+                                            optimizer, optimizer_d, real, fake, config, args.device)
+                    
+                    epoch_loss_full += loss_full
+                    epoch_loss_d += loss_d
+                    cnt_full += 1
 
                 if sample2 is not None:
                     loss_semi = semi_train(
@@ -378,8 +381,8 @@ def main(config, device):
                     epoch_loss_semi += loss_semi
                     cnt_semi += 1
 
-            losses_full.append(epoch_loss_full / i)   # mean loss over all samples
-            losses_d.append(epoch_loss_d / i)
+            losses_full.append(epoch_loss_full / cnt_full)   # mean loss over all samples
+            losses_d.append(epoch_loss_d / cnt_full)
             losses_semi.append(epoch_loss_semi / cnt_semi)
 
         

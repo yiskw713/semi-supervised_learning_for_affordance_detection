@@ -1,0 +1,4 @@
+{
+    "python.pythonPath": "/home/yuchi/anaconda3/envs/torch/bin/python",
+    "python.linting.pylintEnabled": false
+}

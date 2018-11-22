@@ -4,6 +4,7 @@ part-affordance-dataset/category_split.txt
 part-affordance-dataset/novel_split.txt
 part-affordance-dataset/tool_categories.txt
 .DS_Store
-/__pycache__
+__pycache__
 /.ipynb_checkpoints
 /models/deeplabv2_resnet101_COCO_init.pth
+.vscode

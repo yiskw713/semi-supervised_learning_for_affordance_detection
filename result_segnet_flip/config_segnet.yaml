@@ -1,6 +1,8 @@
 class_weight_flag: True
 noisy_label_flag: True
 flip_label: True
+one_label_smooth: False
+
 gaussian: False
 batch_size: 15
 num_workers: 2

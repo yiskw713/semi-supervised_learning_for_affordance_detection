@@ -307,8 +307,12 @@ def main(config, device):
 
     # supplementary constant for discriminator
     if CONFIG.noisy_label_flag:
-        real = torch.full((CONFIG.batch_size, 256, 320), 0.8).to(args.device)
-        fake = torch.full((CONFIG.batch_size, 256, 320), 0.2).to(args.device)        
+        if CONFIG.one_label_smooth:
+            real = torch.full((CONFIG.batch_size, 256, 320), 0.8).to(args.device)
+            fake = torch.zeros(CONFIG.batch_size, 256, 320).to(args.device)
+        else:
+            real = torch.full((CONFIG.batch_size, 256, 320), 0.8).to(args.device)
+            fake = torch.full((CONFIG.batch_size, 256, 320), 0.2).to(args.device)        
     else:
         real = torch.ones(CONFIG.batch_size, 256, 320).to(args.device)
         fake = torch.zeros(CONFIG.batch_size, 256, 320).to(args.device)
@@ -368,7 +372,7 @@ def main(config, device):
                 if sample1 is not None:
                     loss_full, loss_d = adv_train(
                                             model, model_d, sample1, criterion_ce_full, criterion_bce,
-                                            optimizer, optimizer_d, real, fake, config, args.device)
+                                            optimizer, optimizer_d, real, fake, CONFIG, args.device)
                     
                     epoch_loss_full += loss_full
                     epoch_loss_d += loss_d
@@ -387,7 +391,7 @@ def main(config, device):
 
         
         # validation
-        val_iou.append(eval_model(model, test_loader, args.device))
+        val_iou.append(eval_model(model, test_loader, CONFIG, args.device))
         mean_iou.append(val_iou[-1].mean().item())
 
         if best_iou < mean_iou[-1]:

@@ -135,6 +135,9 @@ def adv_train(
         else:
             loss_d_fake = criterion_bce(seg_out, real[:batch_len])
             loss_d_real = criterion_bce(true_out, fake[:batch_len])
+    else:
+        loss_d_fake = criterion_bce(seg_out, fake[:batch_len])
+        loss_d_real = criterion_bce(true_out, real[:batch_len])        
     
     
     loss_d = loss_d_fake + loss_d_real

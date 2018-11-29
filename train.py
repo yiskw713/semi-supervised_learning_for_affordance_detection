@@ -22,10 +22,10 @@ from itertools import zip_longest
 from PIL import Image, ImageFilter
 from tensorboardX import SummaryWriter
 
-from model.FCN8s import FCN8s
-from model.SegNetBasic import SegNetBasic
-from model.UNet import UNet
-from model.discriminator import Discriminator
+from models.FCN8s import FCN8s
+from models.SegNetBasic import SegNetBasic
+from models.UNet import UNet
+from models.discriminator import Discriminator
 from dataset import PAD, PADwithoutLabel, CenterCrop, ToTensor, Normalize
 from dataset import crop_center_numpy, crop_center_pil_image
 

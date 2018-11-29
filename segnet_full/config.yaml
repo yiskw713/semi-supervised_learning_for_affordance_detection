@@ -14,8 +14,8 @@ n_classes: 8
 height: 256
 width: 320
 loss_weight: 1.0
-batch_size: 33
-num_workers: 0
+batch_size: 30
+num_workers: 4
 max_epoch: 200
 full_epoch: 200                  # how many epochs do you want to set for surpervised learning
 adv_epoch: 0                   # how many epochs do you want to set for adversarial learning

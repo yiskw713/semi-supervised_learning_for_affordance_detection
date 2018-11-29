@@ -280,13 +280,13 @@ def main():
     else:
         unlabeled_train_data = None
 
-    test_data = PAD(CONFIG.test_data,
-                    config=CONFIG,
-                    transform=transforms.Compose([
-                        CenterCrop(CONFIG),
-                        ToTensor(),
-                        Normalize()
-                    ]))
+    test_data = PartAffordanceDataset(CONFIG.test_data,
+                                    config=CONFIG,
+                                    transform=transforms.Compose([
+                                        CenterCrop(CONFIG),
+                                        ToTensor(),
+                                        Normalize()
+                                    ]))
 
     train_loader_with_label = DataLoader(labeled_train_data, batch_size=CONFIG.batch_size, shuffle=True, num_workers=CONFIG.num_workers)
     

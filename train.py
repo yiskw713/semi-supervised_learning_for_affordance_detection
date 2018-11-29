@@ -355,11 +355,11 @@ def main():
 
     """ optimizer, criterion """
     optimizer = optim.Adam(model.parameters(), lr=CONFIG.learning_rate)
-    optimizer_d = optim.Adam(model_d.parameters(), lr=CONFIG.learning_rate)
-
     criterion = nn.CrossEntropyLoss(class_weight)
-    criterion_bce = nn.BCELoss()    # discriminator includes sigmoid layer
 
+    if CONFIG.train_mode == 'semi':
+        criterion_bce = nn.BCELoss()    # discriminator includes sigmoid layer
+        optimizer_d = optim.Adam(model_d.parameters(), lr=CONFIG.learning_rate)
 
     losses_full = []
     losses_semi = []

@@ -312,7 +312,11 @@ def main():
         model.apply(init_weights)
         model.to(args.device)
     elif CONFIG.train_mode == 'semi':
-        model.load_state_dict(torch.load(CONFIG.pretrain_model))
+        if CONFIG.pretrain_model is not None:
+            torch.load(CONFIG.pretrain_model, map_location=lambda storage, loc: storage)
+        else:
+            model.apply(init_weights)
+            
         model.to(args.device)
         model_d = Discriminator(CONFIG)
         model_d.apply(init_weights)

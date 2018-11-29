@@ -81,17 +81,20 @@ def crop_center_pil_image(pil_img, crop_height, crop_width):
 
 
 class CenterCrop(object):
+    def __init__(self, config):
+        super().__init__()
+        self.config = config
+    
     def __call__(self, sample):
-        
-        if 'class' in sample:
-            image, cls = sample['image'], sample['class']
-            image = crop_center_pil_image(image, 256, 320)
-            cls = crop_center_numpy(cls, 256, 320)
-            return {'image': image, 'class': cls}
+        if 'label' in sample:
+            image, label = sample['image'], sample['label']
+            image = crop_center_pil_image(image, self.config.height, self.config.width)
+            label = crop_center_numpy(label, self.config.height, self.config.width)
+            return {'image': image, 'label': label}
             
         else:
             image = sample['image']
-            image = crop_center_pil_image(image, 256, 320)
+            image = crop_center_pil_image(image, self.config.height, self.config.width)
             return {'image': image}
 
 

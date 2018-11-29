@@ -261,22 +261,22 @@ def main():
 
 
     """ DataLoader """
-    labeled_train_data = PAD(CONFIG.labeled_data,
-                            config=CONFIG,
-                            transform=transforms.Compose([
-                                    CenterCrop(CONFIG),
-                                    ToTensor(),
-                                    Normalize()
-                            ]))
+    labeled_train_data = PartAffordanceDataset(CONFIG.labeled_data,
+                                                config=CONFIG,
+                                                transform=transforms.Compose([
+                                                        CenterCrop(CONFIG),
+                                                        ToTensor(),
+                                                        Normalize()
+                                                ]))
 
     if CONFIG.train_mode == 'semi':
-        unlabeled_train_data = PAD(CONFIG.unlabeled_data,
-                                config=CONFIG,
-                                transform=transforms.Compose([
-                                    CenterCrop(CONFIG),
-                                    ToTensor(),
-                                    Normalize()
-                                ]))
+        unlabeled_train_data = PartAffordanceDatasetWithoutLabel(CONFIG.unlabeled_data,
+                                                                config=CONFIG,
+                                                                transform=transforms.Compose([
+                                                                    CenterCrop(CONFIG),
+                                                                    ToTensor(),
+                                                                    Normalize()
+                                                                ]))
     else:
         unlabeled_train_data = None
 

@@ -14,26 +14,27 @@ from PIL import Image, ImageFilter
 class PartAffordanceDataset(Dataset):
     """Part Affordance Dataset"""
     
-    def __init__(self, csv_file, transform=None):
+    def __init__(self, csv_file, config, transform=None):
         super().__init__()
         
-        self.image_class_path = pd.read_csv(csv_file)
+        self.df = pd.read_csv(csv_file)
+        self.config = config
         self.transform = transform
         
     def __len__(self):
-        return len(self.image_class_path)
+        return len(self.df)
     
     def __getitem__(self, idx):
-        image_path = self.image_class_path.iloc[idx, 0]
-        class_path = self.image_class_path.iloc[idx, 1]
+        image_path = self.df.iloc[idx, 0]
+        label_path = self.df.iloc[idx, 1]
         image = Image.open(image_path)
-        cls = scipy.io.loadmat(class_path)["gt_label"]
+        label = scipy.io.loadmat(label_path)["gt_label"]
         
-        sample = {'image': image, 'class': cls}
+        sample = {'image': image, 'label': label}
         
         if self.transform:
             sample = self.transform(sample)
-            
+
         return sample
 
 
@@ -41,24 +42,28 @@ class PartAffordanceDataset(Dataset):
 class PartAffordanceDatasetWithoutLabel(Dataset):
     """ Part Affordance Dataset without label """
     
-    def __init__(self, csv_file, transform=None):
+    def __init__(self, csv_file, config, transform=None):
         super().__init__()
         
-        self.image_path = pd.read_csv(csv_file)
+        self.df = pd.read_csv(csv_file)
+        self.config = config
         self.transform = transform
         
     def __len__(self):
-        return len(self.image_path)
+        return len(self.df)
     
     def __getitem__(self, idx):
-        image_path = self.image_path.iloc[idx, 0]
-        image = Image.open(image_path) 
+        image_path = self.df.iloc[idx, 0]
+        # label_path = self.df.iloc[idx, 1]
+        image = Image.open(image_path)
+        # label = scipy.io.loadmat(label_path)["gt_label"]
         
-        sample = {'image': image}
+        # sample = {'image': image, 'label': label}
+        sample = {'image':image}
 
         if self.transform:
             sample = self.transform(sample)
-            
+
         return sample
 
 

@@ -107,10 +107,10 @@ class CenterCrop(object):
 class ToTensor(object):
     def __call__(self, sample):
         
-        if 'class' in sample:
-            image, cls = sample['image'], sample['class']
+        if 'label' in sample:
+            image, label = sample['image'], sample['label']
             return {'image': transforms.functional.to_tensor(image).float(), 
-                    'class': torch.from_numpy(cls).long()}
+                    'label': torch.from_numpy(label).long()}
         else:
             image = sample['image']
             return {'image': transforms.functional.to_tensor(image).float()}
@@ -125,10 +125,10 @@ class Normalize(object):
 
     def __call__(self, sample):
 
-        if 'class' in sample:
-            image, cls = sample['image'], sample['class']
+        if 'label' in sample:
+            image, label = sample['image'], sample['label']
             image = transforms.functional.normalize(image, self.mean, self.std)
-            return {'image': image, 'class': cls}
+            return {'image': image, 'label': label}
         else:
             image = sample['image']
             image = transforms.functional.normalize(image, self.mean, self.std)
@@ -181,7 +181,7 @@ data_loader = DataLoader(dataset, batch_size=100, shuffle=False)
 cnt_dict = {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0}
 
 for sample in data_loader:
-    img = sample['class'].numpy()
+    img = sample['label'].numpy()
     
     num, cnt = np.unique(img, return_counts=True)
     

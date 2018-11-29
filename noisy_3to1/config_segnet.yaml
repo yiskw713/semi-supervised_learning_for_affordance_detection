@@ -1,0 +1,35 @@
+train_mode: semi
+model: SegNetBasic
+
+class_weight_flag: True        # if you use class weight to calculate cross entropy or not
+flip_label: False               # if you sometimes flip real label and fake label or not
+noisy_label_: True              # if you use noisy label for real and fake or not
+writer_flag: True              # if you use tensorboardx or not
+gaussian: False                 # if you add gaussian noise to the input of discriminator or not
+one_label_smooth: False        # if you change only real label for noisy label
+
+in_channel: 3
+n_classes: 8
+height: 256
+width: 320
+batch_size: 30
+num_workers: 4
+max_epoch: 200
+full_epoch: 0                  # how many epochs do you want to set for surpervised learning
+adv_epoch: 50                  # how many epochs do you want to set for adversarial learning
+learning_rate: 0.0001
+learning_rate_d: 0.0000001
+
+real_label: 0.8
+fake_label: 0.2
+flip_label_th: 0.1               # threshold to determine if the labels of real and fake are flipped.
+d_th: 0.4                        # threshold for the output of discriminator network when semi-supervised training
+adv_weight: 0.001
+semi_weight: 0.1
+
+
+result_path: ./noisy_3to1
+pretrain_model: ./models/pretrain_segnet_3to1.prm        # best mean iou 0.789
+labeled_data: ./part-affordance-dataset/train_with_label_3to1.csv
+unlabeled_data: ./part-affordance-dataset/train_without_label_3to1.csv
+test_data: ./part-affordance-dataset/test.csv

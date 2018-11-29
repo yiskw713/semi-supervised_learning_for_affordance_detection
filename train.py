@@ -72,7 +72,7 @@ def full_train(model, sample, criterion, optimizer, config, device):
     loss.backward()
     optimizer.step()
 
-    return loss.item()
+    return loss.item().to('cpu')
 
 
 
@@ -146,7 +146,7 @@ def adv_train(model, model_d, sample, criterion, criterion_bce, optimizer, optim
     loss_d.backward()
     optimizer_d.step()
 
-    return loss.item(), loss_d.item()
+    return loss.item().to('cpu'), loss_d.item().to('cpu')
 
 
 
@@ -192,7 +192,7 @@ def semi_train(model, model_d, sample, criterion, criterion_bce, optimizer, opti
     loss.backward()
     optimizer.step()
 
-    return loss.item()
+    return loss.item().to('cpu')
 
 
 def eval_model(model, test_loader, config, device):
@@ -223,7 +223,7 @@ def eval_model(model, test_loader, config, device):
     """ iou[i] is the IoU of class i """
     iou = intersections / unions
     
-    return iou
+    return iou.to('cpu')
 
 
 

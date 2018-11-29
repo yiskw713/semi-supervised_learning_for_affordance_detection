@@ -23,7 +23,7 @@ from PIL import Image, ImageFilter
 from tensorboardX import SummaryWriter
 
 from models.FCN8s import FCN8s
-from models.SegNetBasic import SegNetBasic
+from models.SegNet import SegNetBasic
 from models.UNet import UNet
 from models.discriminator import Discriminator
 from dataset import PAD, PADwithoutLabel, CenterCrop, ToTensor, Normalize

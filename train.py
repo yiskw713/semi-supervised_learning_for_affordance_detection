@@ -26,7 +26,7 @@ from models.FCN8s import FCN8s
 from models.SegNet import SegNetBasic
 from models.UNet import UNet
 from models.discriminator import Discriminator
-from dataset import PAD, PADwithoutLabel, CenterCrop, ToTensor, Normalize
+from dataset import PartAffordanceDataset, PartAffordanceDatasetWithoutLabel, CenterCrop, ToTensor, Normalize
 from dataset import crop_center_numpy, crop_center_pil_image
 
 

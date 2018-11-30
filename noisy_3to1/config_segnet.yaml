@@ -12,7 +12,7 @@ in_channel: 3
 n_classes: 8
 height: 256
 width: 320
-batch_size: 35
+batch_size: 40
 num_workers: 4
 max_epoch: 200
 full_epoch: 0                  # how many epochs do you want to set for surpervised learning

@@ -364,7 +364,7 @@ def main():
 
     """ optimizer, criterion """
     optimizer = optim.Adam(model.parameters(), lr=CONFIG.learning_rate)
-    criterion = nn.CrossEntropyLoss(class_weight)
+    criterion = nn.CrossEntropyLoss(weight=class_weight, ignore_index=255)
 
     if CONFIG.train_mode == 'semi':
         criterion_bce = nn.BCELoss()    # discriminator includes sigmoid layer

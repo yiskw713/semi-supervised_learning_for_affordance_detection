@@ -1,31 +1,70 @@
 import torch.nn as nn
 import torch.nn.functional as F
 
-class Discriminator(nn.Module):
 
-    def __init__(self, n_classes, ndf = 64):
+
+class DeconvBn_2(nn.Module):
+    """ Deconvolution(stride=2) => Batch Normilization """
+    
+    def __init__(self, in_channel, out_channel):
+        super().__init__()
+        
+        self.deconv = nn.ConvTranspose2d(in_channel, out_channel, kernel_size=2, stride=2, bias=False)
+        self.bn = nn.BatchNorm2d(out_channel)
+        
+    def forward(self, x):
+        return self.bn(self.deconv(x))
+
+
+
+class DeconvBn_8(nn.Module):
+    """ Deconvolution(stride=8) => Batch Normilization """
+    
+    def __init__(self, in_channel, out_channel):
+        super().__init__()
+        
+        self.deconv = nn.ConvTranspose2d(in_channel, out_channel, kernel_size=8, stride=8, bias=False)
+        self.bn = nn.BatchNorm2d(out_channel)
+        
+    def forward(self, x):
+        return self.bn(self.deconv(x))
+
+
+class FCDiscriminator(nn.Module):
+
+    def __init__(self, config, ndf = 64):
         super().__init__()
 
-        self.conv1 = nn.Conv2d(n_classes, ndf, kernel_size=4, stride=2, padding=1)
+        self.conv1 = nn.Conv2d(config.n_classes, ndf, kernel_size=4, stride=2, padding=1)
         self.conv2 = nn.Conv2d(ndf, ndf*2, kernel_size=4, stride=2, padding=1)
         self.conv3 = nn.Conv2d(ndf*2, ndf*4, kernel_size=4, stride=2, padding=1)
         self.conv4 = nn.Conv2d(ndf*4, ndf*8, kernel_size=4, stride=2, padding=1)
-        self.conv5 = nn.Conv2d(ndf*8, 1, kernel_size=4, stride=2, padding=1)
+        self.conv5 = nn.Conv2d(ndf*8, ndf*8, kernel_size=4, stride=2, padding=1)
         self.leaky_relu = nn.LeakyReLU(negative_slope=0.2, inplace=True)
         
-    
+        self.deconv_bn1 = DeconvBn_2(512, 512)
+        self.deconv_bn2 = DeconvBn_2(512, 256)
+        self.deconv_bn3 = DeconvBn_8(256, 1)
+
+
     def forward(self, x):
         x = self.conv1(x)
         x = self.leaky_relu(x)
         x = self.conv2(x)
         x = self.leaky_relu(x)
-        x = self.conv3(x)
-        x = self.leaky_relu(x)
-        x = self.conv4(x)
-        x = self.leaky_relu(x)
-        x = self.conv5(x)         # output => (N, 1, H/32, W/32)
-        x = F.interpolate(x, size=(256, 320), mode='bilinear', align_corners=True)    # shape => (N, 1, H, W)
-        x = F.sigmoid(x)
+        x3 = self.conv3(x)
+        x3 = self.leaky_relu(x3)
+        x4 = self.conv4(x3)
+        x4 = self.leaky_relu(x4)
+        x5 = self.conv5(x4)         # output => (N, 1, H/32, W/32)
+        
+        score = self.deconv_bn1(x5)
+        score = self.deconv_bn2(x4 + score)
+        score = x3 + score
+        out = self.deconv_bn3(score)
+        out = F.sigmoid(out)
 
-        return x
-
+        if self.config.feature_match:
+            return score, out
+        else:
+            return out

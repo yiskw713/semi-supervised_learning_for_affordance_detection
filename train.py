@@ -26,6 +26,7 @@ from models.FCN8s import FCN8s
 from models.SegNet import SegNetBasic
 from models.UNet import UNet
 from models.discriminator import Discriminator
+from models.FCdiscriminator import FCDiscriminator
 from dataset import PartAffordanceDataset, PartAffordanceDatasetWithoutLabel, CenterCrop, ToTensor, Normalize
 from dataset import crop_center_numpy, crop_center_pil_image
 
@@ -72,7 +73,7 @@ def full_train(model, sample, criterion, optimizer, config, device):
     loss.backward()
     optimizer.step()
 
-    return loss.to('cpu').item()
+    return loss.item()
 
 
 
@@ -146,7 +147,7 @@ def adv_train(model, model_d, sample, criterion, criterion_bce, optimizer, optim
     loss_d.backward()
     optimizer_d.step()
 
-    return loss.to('cpu').item(), loss_d.to('cpu').item()
+    return loss.item(), loss_d.item()
 
 
 
@@ -192,7 +193,7 @@ def semi_train(model, model_d, sample, criterion, criterion_bce, optimizer, opti
     loss.backward()
     optimizer.step()
 
-    return loss.to('cpu').item()
+    return loss.item()
 
 
 def eval_model(model, test_loader, config, device):
@@ -223,7 +224,7 @@ def eval_model(model, test_loader, config, device):
     """ iou[i] is the IoU of class i """
     iou = intersections / unions
     
-    return iou.to('cpu')
+    return iou
 
 
 
@@ -316,9 +317,13 @@ def main():
             torch.load(CONFIG.pretrain_model, map_location=lambda storage, loc: storage)
         else:
             model.apply(init_weights)
-            
+
         model.to(args.device)
-        model_d = Discriminator(CONFIG)
+        if CONFIG.model_d == 'FCDiscriminator':
+            model_d = FCDiscriminator(CONFIG)
+        else:
+            model_d = Discriminator(CONFIG)
+
         model_d.apply(init_weights)
         model_d.to(args.device)
     else:

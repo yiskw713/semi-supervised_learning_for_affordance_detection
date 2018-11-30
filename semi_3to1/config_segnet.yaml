@@ -12,7 +12,7 @@ in_channel: 3
 n_classes: 8
 height: 256
 width: 320
-batch_size: 20
+batch_size: 40
 num_workers: 4
 max_epoch: 200
 full_epoch: 0                  # how many epochs do you want to set for surpervised learning
@@ -29,7 +29,7 @@ semi_weight: 0.1
 
 
 result_path: ./semi_3to1
-pretrain_model: ./models/pretrain_segnet_3to1.prm        # best mean iou 0.789
+pretrain_model: ./models/pretrain_segnet_3to1.prm        # best mean iou 0.802
 labeled_data: ./part-affordance-dataset/train_with_label_3to1.csv
 unlabeled_data: ./part-affordance-dataset/train_without_label_3to1.csv
 test_data: ./part-affordance-dataset/test.csv

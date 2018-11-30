@@ -30,8 +30,8 @@ adv_weight: 0.001
 semi_weight: 0.1
 
 
-result_path: ./semi_3to1
-pretrain_model: ./models/pretrain_segnet_3to1.prm        # best mean iou 0.789
+result_path: ./feature_match
+pretrain_model: ./models/pretrain_segnet_3to1.prm        # best mean iou 0.802
 labeled_data: ./part-affordance-dataset/train_with_label_3to1.csv
 unlabeled_data: ./part-affordance-dataset/train_without_label_3to1.csv
 test_data: ./part-affordance-dataset/test.csv

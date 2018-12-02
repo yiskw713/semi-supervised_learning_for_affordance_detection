@@ -103,7 +103,7 @@ def adv_train(model, model_d, sample, criterion, criterion_bce, optimizer, optim
 
     xh = torch.cat((x, h), dim=1)
     
-    if CONFIG.feature_match:
+    if config.feature_match:
         feature_seg, _ = model_d(xh)
         xy = torch.cat((x, h), dim=1)
         feature_real, _ = model_d(xy)
@@ -128,7 +128,7 @@ def adv_train(model, model_d, sample, criterion, criterion_bce, optimizer, optim
 
     xh_ = torch.cat((x_, h_), dim=1)
     
-    if CONFIG.feature_match:
+    if config.feature_match:
         _, seg_out = model_d(xh_)   # shape => (N, 1, H, W)
         seg_out = seg_out.squeeze()
     else:
@@ -137,7 +137,7 @@ def adv_train(model, model_d, sample, criterion, criterion_bce, optimizer, optim
     y_ = one_hot(y_, config.n_classes, torch.float, device)    # shape => (N, n_classes, H, W)
     xy_ = torch.cat((x_, y_), dim=1)
     
-    if CONFIG.feature_match:
+    if config.feature_match:
         _, true_out = model_d(xy_)    # shape => (N, 1, H, W)
         true_out = true_out.squeeze()
     else:
@@ -190,7 +190,7 @@ def semi_train(model, model_d, sample, criterion, criterion_bce, optimizer, opti
             h += torch.rand((batch_len, config.n_classes, config.height, config.width)).to(device)
         
         xh = torch.cat((x, h), dim=1)
-        if CONFIG.feature_match:
+        if config.feature_match:
             _, d_out = model_d(xh)    # shape => (N, 1, H, W)
             d_out = d_out.squeeze()
         else:

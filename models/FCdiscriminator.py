@@ -34,7 +34,8 @@ class FCDiscriminator(nn.Module):
 
     def __init__(self, config, ndf = 64):
         super().__init__()
-
+        
+        self.config = config
         self.conv1 = nn.Conv2d(self.config.n_classes + self.config.in_channel, ndf, kernel_size=4, stride=2, padding=1)
         self.conv2 = nn.Conv2d(ndf, ndf*2, kernel_size=4, stride=2, padding=1)
         self.conv3 = nn.Conv2d(ndf*2, ndf*4, kernel_size=4, stride=2, padding=1)

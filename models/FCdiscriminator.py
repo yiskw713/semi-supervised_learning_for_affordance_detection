@@ -35,7 +35,7 @@ class FCDiscriminator(nn.Module):
     def __init__(self, config, ndf = 64):
         super().__init__()
 
-        self.conv1 = nn.Conv2d(config.n_classes, ndf, kernel_size=4, stride=2, padding=1)
+        self.conv1 = nn.Conv2d(config.n_classes + self.config.in_channel, ndf, kernel_size=4, stride=2, padding=1)
         self.conv2 = nn.Conv2d(ndf, ndf*2, kernel_size=4, stride=2, padding=1)
         self.conv3 = nn.Conv2d(ndf*2, ndf*4, kernel_size=4, stride=2, padding=1)
         self.conv4 = nn.Conv2d(ndf*4, ndf*8, kernel_size=4, stride=2, padding=1)
@@ -58,13 +58,13 @@ class FCDiscriminator(nn.Module):
         x4 = self.leaky_relu(x4)
         x5 = self.conv5(x4)         # output => (N, 1, H/32, W/32)
         
-        score = self.deconv_bn1(x5)
-        score = self.deconv_bn2(x4 + score)
-        score = x3 + score
-        out = self.deconv_bn3(score)
+        feature = self.deconv_bn1(x5)
+        feature = self.deconv_bn2(x4 + feature)
+        feature = x3 + feature
+        out = self.deconv_bn3(feature)
         out = F.sigmoid(out)
 
         if self.config.feature_match:
-            return score, out
+            return feature, out
         else:
             return out

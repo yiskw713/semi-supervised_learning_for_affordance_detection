@@ -102,11 +102,18 @@ def adv_train(model, model_d, sample, criterion, criterion_bce, optimizer, optim
         h += torch.rand((batch_len, config.n_classes, config.height, config.width)).to(device)
 
     xh = torch.cat((x, h), dim=1)
-    d_out = model_d(xh)    # shape => (N, 1, H, W)
-    d_out = d_out.squeeze()
+    
+    if CONFIG.feature_match:
+        feature_seg, _ = model_d(xh)
+        xy = torch.cat((x, h), dim=1)
+        feature_real, _ = model_d(xy)
+        loss_adv = F.mse_loss(feature_seg, feature_real)
+    else:    
+        d_out = model_d(xh)    # shape => (N, 1, H, W)
+        d_out = d_out.squeeze()
+        loss_adv = criterion_bce(d_out, real[:batch_len])
     
     loss_full = criterion(h, y)
-    loss_adv = criterion_bce(d_out, real[:batch_len])
     loss = loss_full + config.adv_weight * loss_adv
 
     optimizer.zero_grad()
@@ -120,13 +127,22 @@ def adv_train(model, model_d, sample, criterion, criterion_bce, optimizer, optim
         h_ += torch.rand((batch_len, config.n_classes, config.height, config.width)).to(device)
 
     xh_ = torch.cat((x_, h_), dim=1)
-    seg_out = model_d(xh_)    # shape => (N, 1, H, W)
-    seg_out = seg_out.squeeze()
     
+    if CONFIG.feature_match:
+        _, seg_out = model_d(xh_)   # shape => (N, 1, H, W)
+        seg_out = seg_out.squeeze()
+    else:
+        seg_out = model_d(xh_)
+
     y_ = one_hot(y_, config.n_classes, torch.float, device)    # shape => (N, n_classes, H, W)
     xy_ = torch.cat((x_, y_), dim=1)
-    true_out = model_d(xy_)    # shape => (N, 1, H, W)
-    true_out = true_out.squeeze()
+    
+    if CONFIG.feature_match:
+        _, true_out = model_d(xy_)    # shape => (N, 1, H, W)
+        true_out = true_out.squeeze()
+    else:
+        true_out = model_d(xy_)    # shape => (N, 1, H, W)
+        true_out = true_out.squeeze()
 
     if config.flip_label:
         if random.random() > config.flip_label_th:
@@ -174,8 +190,12 @@ def semi_train(model, model_d, sample, criterion, criterion_bce, optimizer, opti
             h += torch.rand((batch_len, config.n_classes, config.height, config.width)).to(device)
         
         xh = torch.cat((x, h), dim=1)
-        d_out = model_d(xh)    # shape => (N, 1, H, W)
-        d_out = d_out.squeeze()
+        if CONFIG.feature_match:
+            _, d_out = model_d(xh)    # shape => (N, 1, H, W)
+            d_out = d_out.squeeze()
+        else:
+            d_out = model_d(xh)    # shape => (N, 1, H, W)
+            d_out = d_out.squeeze()
 
     loss_adv = criterion_bce(d_out, real[:batch_len])
 

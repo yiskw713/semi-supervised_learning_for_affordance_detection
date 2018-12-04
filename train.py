@@ -232,8 +232,8 @@ def eval_model(model, test_loader, config, device):
             h = model(x) 
             _, ypred = h.max(1)    # y_pred.shape => (N, H, W)
             
-            p = one_hot(ypred, 8, torch.long, device, requires_grad=False)
-            t = one_hot(y, 8, torch.long, device, requires_grad=False)
+            p = one_hot(ypred, config.n_classes, torch.long, device, requires_grad=False)
+            t = one_hot(y, config.n_classes, torch.long, device, requires_grad=False)
             
             intersection = torch.sum(p & t, (0, 2, 3))
             union = torch.sum(p | t, (0, 2, 3))

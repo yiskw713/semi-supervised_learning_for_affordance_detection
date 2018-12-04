@@ -18,7 +18,7 @@ height: 256
 width: 320
 batch_size: 40
 num_workers: 4
-max_epoch: 200
+max_epoch: 300
 full_epoch: 0                  # how many epochs do you want to set for surpervised learning
 adv_epoch: 50                  # how many epochs do you want to set for adversarial learning
 learning_rate: 0.0001

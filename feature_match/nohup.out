@@ -1,0 +1,204 @@
+nohup: ignoring input
+  0%|          | 0/200 [00:00<?, ?it/s]/home/ubuntu/.pyenv/versions/anaconda3-5.2.0/lib/python3.6/site-packages/torch/nn/functional.py:1006: UserWarning: nn.functional.sigmoid is deprecated. Use torch.sigmoid instead.
+  warnings.warn("nn.functional.sigmoid is deprecated. Use torch.sigmoid instead.")
+  0%|          | 1/200 [14:29<48:04:57, 869.84s/it]epoch: 0	loss_full: 1.42127	loss_d: 1.39622	loss_semi: 0.00000	mean IOU: 0.189	mean IOU w/ bg: 0.151
+  1%|          | 2/200 [29:00<47:50:59, 870.00s/it]epoch: 1	loss_full: 0.69999	loss_d: 1.38939	loss_semi: 0.00000	mean IOU: 0.199	mean IOU w/ bg: 0.149
+  2%|▏         | 3/200 [43:30<47:36:45, 870.08s/it]epoch: 2	loss_full: 0.51772	loss_d: 1.38918	loss_semi: 0.00000	mean IOU: 0.209	mean IOU w/ bg: 0.148
+  2%|▏         | 4/200 [58:00<47:22:23, 870.12s/it]epoch: 3	loss_full: 0.43716	loss_d: 1.38829	loss_semi: 0.00000	mean IOU: 0.238	mean IOU w/ bg: 0.176
+  2%|▎         | 5/200 [1:12:30<47:08:03, 870.17s/it]epoch: 4	loss_full: 0.37438	loss_d: 1.38679	loss_semi: 0.00000	mean IOU: 0.242	mean IOU w/ bg: 0.176
+  3%|▎         | 6/200 [1:27:01<46:53:56, 870.29s/it]epoch: 5	loss_full: 0.34430	loss_d: 1.38371	loss_semi: 0.00000	mean IOU: 0.268	mean IOU w/ bg: 0.200
+  4%|▎         | 7/200 [1:41:32<46:40:06, 870.50s/it]epoch: 6	loss_full: 0.30711	loss_d: 1.38213	loss_semi: 0.00000	mean IOU: 0.290	mean IOU w/ bg: 0.224
+  4%|▍         | 8/200 [1:56:03<46:25:54, 870.59s/it]epoch: 7	loss_full: 0.28275	loss_d: 1.38099	loss_semi: 0.00000	mean IOU: 0.294	mean IOU w/ bg: 0.224
+  4%|▍         | 9/200 [2:10:31<46:08:51, 869.80s/it]epoch: 8	loss_full: 0.26591	loss_d: 1.38035	loss_semi: 0.00000	mean IOU: 0.327	mean IOU w/ bg: 0.257
+  5%|▌         | 10/200 [2:24:58<45:52:06, 869.08s/it]epoch: 9	loss_full: 0.25460	loss_d: 1.37954	loss_semi: 0.00000	mean IOU: 0.356	mean IOU w/ bg: 0.284
+  6%|▌         | 11/200 [2:39:28<45:37:58, 869.20s/it]epoch: 10	loss_full: 0.22568	loss_d: 1.37930	loss_semi: 0.00000	mean IOU: 0.385	mean IOU w/ bg: 0.314
+  6%|▌         | 12/200 [2:53:58<45:24:32, 869.53s/it]epoch: 11	loss_full: 0.21895	loss_d: 1.37830	loss_semi: 0.00000	mean IOU: 0.406	mean IOU w/ bg: 0.337
+  6%|▋         | 13/200 [3:08:30<45:12:09, 870.21s/it]epoch: 12	loss_full: 0.20526	loss_d: 1.37699	loss_semi: 0.00000	mean IOU: 0.440	mean IOU w/ bg: 0.374
+  7%|▋         | 14/200 [3:23:01<44:58:36, 870.52s/it]epoch: 13	loss_full: 0.19639	loss_d: 1.37629	loss_semi: 0.00000	mean IOU: 0.462	mean IOU w/ bg: 0.398
+  8%|▊         | 15/200 [3:37:32<44:44:16, 870.58s/it]epoch: 14	loss_full: 0.18137	loss_d: 1.37494	loss_semi: 0.00000	mean IOU: 0.499	mean IOU w/ bg: 0.438
+  8%|▊         | 16/200 [3:52:03<44:30:27, 870.80s/it]epoch: 15	loss_full: 0.18062	loss_d: 1.37347	loss_semi: 0.00000	mean IOU: 0.539	mean IOU w/ bg: 0.481
+  8%|▊         | 17/200 [4:06:34<44:16:20, 870.93s/it]epoch: 16	loss_full: 0.16667	loss_d: 1.37203	loss_semi: 0.00000	mean IOU: 0.546	mean IOU w/ bg: 0.489
+  9%|▉         | 18/200 [4:21:05<44:01:34, 870.85s/it]epoch: 17	loss_full: 0.15348	loss_d: 1.37041	loss_semi: 0.00000	mean IOU: 0.610	mean IOU w/ bg: 0.560
+ 10%|▉         | 19/200 [4:35:33<43:44:06, 869.87s/it]epoch: 18	loss_full: 0.14018	loss_d: 1.36884	loss_semi: 0.00000	mean IOU: 0.629	mean IOU w/ bg: 0.582
+ 10%|█         | 20/200 [4:50:00<43:27:02, 869.01s/it]epoch: 19	loss_full: 0.14439	loss_d: 1.36759	loss_semi: 0.00000	mean IOU: 0.624	mean IOU w/ bg: 0.575
+ 10%|█         | 21/200 [5:04:27<43:10:50, 868.44s/it]epoch: 20	loss_full: 0.12715	loss_d: 1.36612	loss_semi: 0.00000	mean IOU: 0.647	mean IOU w/ bg: 0.602
+ 11%|█         | 22/200 [5:18:54<42:55:30, 868.15s/it]epoch: 21	loss_full: 0.12636	loss_d: 1.36499	loss_semi: 0.00000	mean IOU: 0.668	mean IOU w/ bg: 0.625
+ 12%|█▏        | 23/200 [5:33:24<42:42:39, 868.70s/it]epoch: 22	loss_full: 0.11652	loss_d: 1.36456	loss_semi: 0.00000	mean IOU: 0.690	mean IOU w/ bg: 0.649
+ 12%|█▏        | 24/200 [5:47:55<42:30:05, 869.35s/it]epoch: 23	loss_full: 0.10906	loss_d: 1.36558	loss_semi: 0.00000	mean IOU: 0.686	mean IOU w/ bg: 0.646
+ 12%|█▎        | 25/200 [6:02:26<42:17:14, 869.91s/it]epoch: 24	loss_full: 0.10999	loss_d: 1.36529	loss_semi: 0.00000	mean IOU: 0.697	mean IOU w/ bg: 0.658
+ 13%|█▎        | 26/200 [6:16:53<42:00:10, 869.02s/it]epoch: 25	loss_full: 0.10477	loss_d: 1.36318	loss_semi: 0.00000	mean IOU: 0.703	mean IOU w/ bg: 0.664
+ 14%|█▎        | 27/200 [6:31:22<41:45:39, 869.01s/it]epoch: 26	loss_full: 0.09308	loss_d: 1.36125	loss_semi: 0.00000	mean IOU: 0.710	mean IOU w/ bg: 0.673
+ 14%|█▍        | 28/200 [6:45:50<41:30:17, 868.71s/it]epoch: 27	loss_full: 0.09615	loss_d: 1.35914	loss_semi: 0.00000	mean IOU: 0.709	mean IOU w/ bg: 0.671
+ 14%|█▍        | 29/200 [7:00:18<41:15:11, 868.49s/it]epoch: 28	loss_full: 0.08873	loss_d: 1.35737	loss_semi: 0.00000	mean IOU: 0.729	mean IOU w/ bg: 0.694
+ 15%|█▌        | 30/200 [7:14:47<41:01:16, 868.69s/it]epoch: 29	loss_full: 0.08740	loss_d: 1.35572	loss_semi: 0.00000	mean IOU: 0.704	mean IOU w/ bg: 0.666
+ 16%|█▌        | 31/200 [7:29:18<40:48:35, 869.32s/it]epoch: 30	loss_full: 0.07816	loss_d: 1.35405	loss_semi: 0.00000	mean IOU: 0.733	mean IOU w/ bg: 0.698
+ 16%|█▌        | 32/200 [7:43:49<40:35:38, 869.87s/it]epoch: 31	loss_full: 0.07812	loss_d: 1.35248	loss_semi: 0.00000	mean IOU: 0.746	mean IOU w/ bg: 0.712
+ 16%|█▋        | 33/200 [7:58:18<40:20:01, 869.47s/it]epoch: 32	loss_full: 0.07824	loss_d: 1.35252	loss_semi: 0.00000	mean IOU: 0.732	mean IOU w/ bg: 0.697
+ 17%|█▋        | 34/200 [8:12:50<40:07:39, 870.24s/it]epoch: 33	loss_full: 0.06935	loss_d: 1.35801	loss_semi: 0.00000	mean IOU: 0.738	mean IOU w/ bg: 0.703
+ 18%|█▊        | 35/200 [8:27:22<39:54:50, 870.85s/it]epoch: 34	loss_full: 0.07222	loss_d: 1.35669	loss_semi: 0.00000	mean IOU: 0.737	mean IOU w/ bg: 0.702
+ 18%|█▊        | 36/200 [8:41:54<39:41:13, 871.18s/it]epoch: 35	loss_full: 0.07547	loss_d: 1.35366	loss_semi: 0.00000	mean IOU: 0.749	mean IOU w/ bg: 0.716
+ 18%|█▊        | 37/200 [8:56:26<39:27:30, 871.48s/it]epoch: 36	loss_full: 0.06323	loss_d: 1.34323	loss_semi: 0.00000	mean IOU: 0.736	mean IOU w/ bg: 0.702
+ 19%|█▉        | 38/200 [9:10:58<39:13:13, 871.57s/it]epoch: 37	loss_full: 0.06037	loss_d: 1.33618	loss_semi: 0.00000	mean IOU: 0.745	mean IOU w/ bg: 0.712
+ 20%|█▉        | 39/200 [9:25:29<38:58:36, 871.53s/it]epoch: 38	loss_full: 0.05889	loss_d: 1.33116	loss_semi: 0.00000	mean IOU: 0.745	mean IOU w/ bg: 0.712
+ 20%|██        | 40/200 [9:40:01<38:44:02, 871.51s/it]epoch: 39	loss_full: 0.06136	loss_d: 1.32400	loss_semi: 0.00000	mean IOU: 0.734	mean IOU w/ bg: 0.699
+ 20%|██        | 41/200 [9:54:33<38:29:47, 871.62s/it]epoch: 40	loss_full: 0.05711	loss_d: 1.32022	loss_semi: 0.00000	mean IOU: 0.758	mean IOU w/ bg: 0.726
+ 21%|██        | 42/200 [10:09:05<38:15:36, 871.75s/it]epoch: 41	loss_full: 0.05510	loss_d: 1.31655	loss_semi: 0.00000	mean IOU: 0.740	mean IOU w/ bg: 0.706
+ 22%|██▏       | 43/200 [10:23:37<38:01:22, 871.86s/it]epoch: 42	loss_full: 0.05451	loss_d: 1.31292	loss_semi: 0.00000	mean IOU: 0.760	mean IOU w/ bg: 0.728
+ 22%|██▏       | 44/200 [10:38:08<37:46:22, 871.68s/it]epoch: 43	loss_full: 0.05070	loss_d: 1.30933	loss_semi: 0.00000	mean IOU: 0.749	mean IOU w/ bg: 0.716
+ 22%|██▎       | 45/200 [10:52:39<37:31:23, 871.51s/it]epoch: 44	loss_full: 0.05496	loss_d: 1.30622	loss_semi: 0.00000	mean IOU: 0.750	mean IOU w/ bg: 0.718
+ 23%|██▎       | 46/200 [11:07:11<37:17:18, 871.68s/it]epoch: 45	loss_full: 0.04834	loss_d: 1.30386	loss_semi: 0.00000	mean IOU: 0.762	mean IOU w/ bg: 0.731
+ 24%|██▎       | 47/200 [11:21:43<37:02:38, 871.63s/it]epoch: 46	loss_full: 0.05551	loss_d: 1.30017	loss_semi: 0.00000	mean IOU: 0.762	mean IOU w/ bg: 0.731
+ 24%|██▍       | 48/200 [11:36:14<36:47:59, 871.57s/it]epoch: 47	loss_full: 0.04598	loss_d: 1.29650	loss_semi: 0.00000	mean IOU: 0.755	mean IOU w/ bg: 0.723
+ 24%|██▍       | 49/200 [11:50:46<36:33:26, 871.56s/it]epoch: 48	loss_full: 0.05146	loss_d: 1.29285	loss_semi: 0.00000	mean IOU: 0.755	mean IOU w/ bg: 0.723
+ 25%|██▌       | 50/200 [12:05:18<36:19:23, 871.76s/it]epoch: 49	loss_full: 0.04403	loss_d: 1.28921	loss_semi: 0.00000	mean IOU: 0.751	mean IOU w/ bg: 0.718
+ 26%|██▌       | 51/200 [12:20:39<36:41:09, 886.37s/it]epoch: 50	loss_full: 0.05950	loss_d: 1.28416	loss_semi: 0.01976	mean IOU: 0.762	mean IOU w/ bg: 0.731
+ 26%|██▌       | 52/200 [12:35:57<36:50:07, 896.00s/it]epoch: 51	loss_full: 0.05193	loss_d: 1.28053	loss_semi: 0.02135	mean IOU: 0.758	mean IOU w/ bg: 0.726
+ 26%|██▋       | 53/200 [12:51:17<36:52:36, 903.11s/it]epoch: 52	loss_full: 0.05372	loss_d: 1.27696	loss_semi: 0.02123	mean IOU: 0.764	mean IOU w/ bg: 0.733
+ 27%|██▋       | 54/200 [13:06:31<36:45:51, 906.52s/it]epoch: 53	loss_full: 0.05658	loss_d: 1.27338	loss_semi: 0.02091	mean IOU: 0.732	mean IOU w/ bg: 0.698
+ 28%|██▊       | 55/200 [13:21:46<36:36:34, 908.92s/it]epoch: 54	loss_full: 0.05115	loss_d: 1.26932	loss_semi: 0.02171	mean IOU: 0.763	mean IOU w/ bg: 0.732
+ 28%|██▊       | 56/200 [13:37:01<36:25:52, 910.78s/it]epoch: 55	loss_full: 0.05413	loss_d: 1.26569	loss_semi: 0.02189	mean IOU: 0.761	mean IOU w/ bg: 0.730
+ 28%|██▊       | 57/200 [13:52:17<36:14:30, 912.38s/it]epoch: 56	loss_full: 0.05388	loss_d: 1.26212	loss_semi: 0.02143	mean IOU: 0.735	mean IOU w/ bg: 0.700
+ 29%|██▉       | 58/200 [14:07:30<35:59:48, 912.60s/it]epoch: 57	loss_full: 0.04999	loss_d: 1.25854	loss_semi: 0.02149	mean IOU: 0.752	mean IOU w/ bg: 0.719
+ 30%|██▉       | 59/200 [14:22:43<35:44:49, 912.69s/it]epoch: 58	loss_full: 0.05500	loss_d: 1.25500	loss_semi: 0.02143	mean IOU: 0.748	mean IOU w/ bg: 0.714
+ 30%|███       | 60/200 [14:37:56<35:30:12, 912.95s/it]epoch: 59	loss_full: 0.04871	loss_d: 1.25145	loss_semi: 0.02141	mean IOU: 0.755	mean IOU w/ bg: 0.723
+ 30%|███       | 61/200 [14:53:10<35:15:32, 913.18s/it]epoch: 60	loss_full: 0.05616	loss_d: 1.24791	loss_semi: 0.02154	mean IOU: 0.754	mean IOU w/ bg: 0.722
+ 31%|███       | 62/200 [15:08:23<35:00:06, 913.09s/it]epoch: 61	loss_full: 0.04830	loss_d: 1.24440	loss_semi: 0.02184	mean IOU: 0.764	mean IOU w/ bg: 0.733
+ 32%|███▏      | 63/200 [15:23:37<34:45:11, 913.22s/it]epoch: 62	loss_full: 0.05022	loss_d: 1.24087	loss_semi: 0.02195	mean IOU: 0.764	mean IOU w/ bg: 0.733
+ 32%|███▏      | 64/200 [15:38:50<34:30:11, 913.32s/it]epoch: 63	loss_full: 0.04818	loss_d: 1.23735	loss_semi: 0.02197	mean IOU: 0.756	mean IOU w/ bg: 0.724
+ 32%|███▎      | 65/200 [15:54:04<34:15:08, 913.39s/it]epoch: 64	loss_full: 0.04883	loss_d: 1.23385	loss_semi: 0.02204	mean IOU: 0.750	mean IOU w/ bg: 0.718
+ 33%|███▎      | 66/200 [16:09:17<33:59:46, 913.33s/it]epoch: 65	loss_full: 0.05720	loss_d: 1.23036	loss_semi: 0.02159	mean IOU: 0.746	mean IOU w/ bg: 0.713
+ 34%|███▎      | 67/200 [16:24:32<33:45:25, 913.72s/it]epoch: 66	loss_full: 0.04652	loss_d: 1.22687	loss_semi: 0.02214	mean IOU: 0.761	mean IOU w/ bg: 0.730
+ 34%|███▍      | 68/200 [16:39:44<33:29:08, 913.25s/it]epoch: 67	loss_full: 0.04773	loss_d: 1.22339	loss_semi: 0.02212	mean IOU: 0.752	mean IOU w/ bg: 0.720
+ 34%|███▍      | 69/200 [16:54:56<33:13:11, 912.91s/it]epoch: 68	loss_full: 0.04771	loss_d: 1.21993	loss_semi: 0.02199	mean IOU: 0.756	mean IOU w/ bg: 0.724
+ 35%|███▌      | 70/200 [17:10:10<32:58:50, 913.31s/it]epoch: 69	loss_full: 0.05235	loss_d: 1.21646	loss_semi: 0.02227	mean IOU: 0.756	mean IOU w/ bg: 0.724
+ 36%|███▌      | 71/200 [17:25:24<32:43:45, 913.38s/it]epoch: 70	loss_full: 0.04502	loss_d: 1.21301	loss_semi: 0.02143	mean IOU: 0.763	mean IOU w/ bg: 0.732
+ 36%|███▌      | 72/200 [17:40:37<32:28:51, 913.53s/it]epoch: 71	loss_full: 0.05083	loss_d: 1.20957	loss_semi: 0.02246	mean IOU: 0.769	mean IOU w/ bg: 0.739
+ 36%|███▋      | 73/200 [17:55:50<32:13:15, 913.35s/it]epoch: 72	loss_full: 0.04560	loss_d: 1.20613	loss_semi: 0.02169	mean IOU: 0.755	mean IOU w/ bg: 0.723
+ 37%|███▋      | 74/200 [18:11:04<31:57:59, 913.33s/it]epoch: 73	loss_full: 0.04682	loss_d: 1.20269	loss_semi: 0.02244	mean IOU: 0.756	mean IOU w/ bg: 0.725
+ 38%|███▊      | 75/200 [18:26:17<31:42:53, 913.39s/it]epoch: 74	loss_full: 0.05191	loss_d: 1.19929	loss_semi: 0.02238	mean IOU: 0.760	mean IOU w/ bg: 0.728
+ 38%|███▊      | 76/200 [18:41:31<31:27:57, 913.53s/it]epoch: 75	loss_full: 0.04453	loss_d: 1.19587	loss_semi: 0.02194	mean IOU: 0.750	mean IOU w/ bg: 0.718
+ 38%|███▊      | 77/200 [18:56:45<31:12:59, 913.65s/it]epoch: 76	loss_full: 0.04516	loss_d: 1.19247	loss_semi: 0.02206	mean IOU: 0.757	mean IOU w/ bg: 0.725
+ 39%|███▉      | 78/200 [19:11:57<30:56:46, 913.17s/it]epoch: 77	loss_full: 0.04941	loss_d: 1.18908	loss_semi: 0.02189	mean IOU: 0.623	mean IOU w/ bg: 0.577
+ 40%|███▉      | 79/200 [19:27:11<30:41:59, 913.38s/it]epoch: 78	loss_full: 0.04688	loss_d: 1.18570	loss_semi: 0.02183	mean IOU: 0.769	mean IOU w/ bg: 0.739
+ 40%|████      | 80/200 [19:42:24<30:26:40, 913.33s/it]epoch: 79	loss_full: 0.04368	loss_d: 1.18230	loss_semi: 0.02150	mean IOU: 0.770	mean IOU w/ bg: 0.739
+ 40%|████      | 81/200 [19:57:38<30:11:54, 913.57s/it]epoch: 80	loss_full: 0.04457	loss_d: 1.17895	loss_semi: 0.02228	mean IOU: 0.770	mean IOU w/ bg: 0.740
+ 41%|████      | 82/200 [20:12:54<29:57:42, 914.09s/it]epoch: 81	loss_full: 0.05128	loss_d: 1.17558	loss_semi: 0.02216	mean IOU: 0.763	mean IOU w/ bg: 0.732
+ 42%|████▏     | 83/200 [20:28:09<29:43:04, 914.40s/it]epoch: 82	loss_full: 0.04311	loss_d: 1.17220	loss_semi: 0.02163	mean IOU: 0.752	mean IOU w/ bg: 0.720
+ 42%|████▏     | 84/200 [20:43:25<29:28:48, 914.90s/it]epoch: 83	loss_full: 0.04574	loss_d: 1.16884	loss_semi: 0.02160	mean IOU: 0.765	mean IOU w/ bg: 0.734
+ 42%|████▎     | 85/200 [20:58:38<29:12:40, 914.44s/it]epoch: 84	loss_full: 0.04983	loss_d: 1.16549	loss_semi: 0.02224	mean IOU: 0.772	mean IOU w/ bg: 0.743
+ 43%|████▎     | 86/200 [21:13:52<28:57:17, 914.36s/it]epoch: 85	loss_full: 0.04209	loss_d: 1.16214	loss_semi: 0.02124	mean IOU: 0.760	mean IOU w/ bg: 0.728
+ 44%|████▎     | 87/200 [21:29:05<28:40:50, 913.72s/it]epoch: 86	loss_full: 0.04290	loss_d: 1.15881	loss_semi: 0.02155	mean IOU: 0.771	mean IOU w/ bg: 0.741
+ 44%|████▍     | 88/200 [21:44:16<28:24:35, 913.18s/it]epoch: 87	loss_full: 0.04350	loss_d: 1.15550	loss_semi: 0.02192	mean IOU: 0.771	mean IOU w/ bg: 0.740
+ 44%|████▍     | 89/200 [21:59:29<28:09:02, 913.00s/it]epoch: 88	loss_full: 0.04769	loss_d: 1.15217	loss_semi: 0.02198	mean IOU: 0.770	mean IOU w/ bg: 0.740
+ 45%|████▌     | 90/200 [22:14:43<27:54:06, 913.15s/it]epoch: 89	loss_full: 0.04225	loss_d: 1.14885	loss_semi: 0.02163	mean IOU: 0.767	mean IOU w/ bg: 0.737
+ 46%|████▌     | 91/200 [22:29:57<27:39:49, 913.66s/it]epoch: 90	loss_full: 0.04239	loss_d: 1.14555	loss_semi: 0.02142	mean IOU: 0.769	mean IOU w/ bg: 0.739
+ 46%|████▌     | 92/200 [22:45:11<27:24:37, 913.68s/it]epoch: 91	loss_full: 0.04250	loss_d: 1.14227	loss_semi: 0.02192	mean IOU: 0.768	mean IOU w/ bg: 0.738
+ 46%|████▋     | 93/200 [23:00:25<27:09:28, 913.72s/it]epoch: 92	loss_full: 0.04322	loss_d: 1.13898	loss_semi: 0.02176	mean IOU: 0.749	mean IOU w/ bg: 0.717
+ 47%|████▋     | 94/200 [23:15:39<26:54:37, 913.94s/it]epoch: 93	loss_full: 0.04253	loss_d: 1.13570	loss_semi: 0.02173	mean IOU: 0.761	mean IOU w/ bg: 0.729
+ 48%|████▊     | 95/200 [23:30:52<26:38:49, 913.61s/it]epoch: 94	loss_full: 0.04277	loss_d: 1.13244	loss_semi: 0.02215	mean IOU: 0.761	mean IOU w/ bg: 0.729
+ 48%|████▊     | 96/200 [23:46:07<26:24:00, 913.85s/it]epoch: 95	loss_full: 0.04147	loss_d: 1.12918	loss_semi: 0.02163	mean IOU: 0.775	mean IOU w/ bg: 0.745
+ 48%|████▊     | 97/200 [24:01:22<26:09:40, 914.38s/it]epoch: 96	loss_full: 0.04828	loss_d: 1.12593	loss_semi: 0.02185	mean IOU: 0.765	mean IOU w/ bg: 0.734
+ 49%|████▉     | 98/200 [24:16:36<25:54:09, 914.21s/it]epoch: 97	loss_full: 0.04072	loss_d: 1.12267	loss_semi: 0.02138	mean IOU: 0.764	mean IOU w/ bg: 0.733
+ 50%|████▉     | 99/200 [24:31:51<25:39:08, 914.34s/it]epoch: 98	loss_full: 0.04046	loss_d: 1.11944	loss_semi: 0.02150	mean IOU: 0.775	mean IOU w/ bg: 0.745
+ 50%|█████     | 100/200 [24:47:05<25:24:05, 914.46s/it]epoch: 99	loss_full: 0.04113	loss_d: 1.11622	loss_semi: 0.02159	mean IOU: 0.772	mean IOU w/ bg: 0.742
+ 50%|█████     | 101/200 [25:02:20<25:08:43, 914.38s/it]epoch: 100	loss_full: 0.04152	loss_d: 1.11300	loss_semi: 0.02208	mean IOU: 0.773	mean IOU w/ bg: 0.743
+ 51%|█████     | 102/200 [25:17:32<24:52:31, 913.79s/it]epoch: 101	loss_full: 0.04208	loss_d: 1.10981	loss_semi: 0.02190	mean IOU: 0.775	mean IOU w/ bg: 0.745
+ 52%|█████▏    | 103/200 [25:32:45<24:37:00, 913.61s/it]epoch: 102	loss_full: 0.04239	loss_d: 1.10661	loss_semi: 0.02196	mean IOU: 0.776	mean IOU w/ bg: 0.747
+ 52%|█████▏    | 104/200 [25:47:58<24:21:09, 913.23s/it]epoch: 103	loss_full: 0.04036	loss_d: 1.10341	loss_semi: 0.02178	mean IOU: 0.773	mean IOU w/ bg: 0.744
+ 52%|█████▎    | 105/200 [26:03:13<24:06:53, 913.82s/it]epoch: 104	loss_full: 0.04117	loss_d: 1.10024	loss_semi: 0.02225	mean IOU: 0.766	mean IOU w/ bg: 0.735
+ 53%|█████▎    | 106/200 [26:18:27<23:52:00, 914.05s/it]epoch: 105	loss_full: 0.04548	loss_d: 1.09704	loss_semi: 0.02216	mean IOU: 0.781	mean IOU w/ bg: 0.752
+ 54%|█████▎    | 107/200 [26:33:42<23:37:16, 914.37s/it]epoch: 106	loss_full: 0.03944	loss_d: 1.09387	loss_semi: 0.02184	mean IOU: 0.777	mean IOU w/ bg: 0.748
+ 54%|█████▍    | 108/200 [26:48:57<23:22:01, 914.36s/it]epoch: 107	loss_full: 0.04038	loss_d: 1.09073	loss_semi: 0.02236	mean IOU: 0.777	mean IOU w/ bg: 0.748
+ 55%|█████▍    | 109/200 [27:04:09<23:05:48, 913.72s/it]epoch: 108	loss_full: 0.04091	loss_d: 1.08758	loss_semi: 0.02218	mean IOU: 0.777	mean IOU w/ bg: 0.748
+ 55%|█████▌    | 110/200 [27:19:22<22:50:14, 913.49s/it]epoch: 109	loss_full: 0.04409	loss_d: 1.08446	loss_semi: 0.02231	mean IOU: 0.774	mean IOU w/ bg: 0.744
+ 56%|█████▌    | 111/200 [27:34:35<22:34:51, 913.38s/it]epoch: 110	loss_full: 0.03932	loss_d: 1.08127	loss_semi: 0.02148	mean IOU: 0.767	mean IOU w/ bg: 0.737
+ 56%|█████▌    | 112/200 [27:49:50<22:20:05, 913.70s/it]epoch: 111	loss_full: 0.04178	loss_d: 1.07815	loss_semi: 0.02272	mean IOU: 0.775	mean IOU w/ bg: 0.746
+ 56%|█████▋    | 113/200 [28:05:04<22:05:15, 913.97s/it]epoch: 112	loss_full: 0.04007	loss_d: 1.07505	loss_semi: 0.02204	mean IOU: 0.774	mean IOU w/ bg: 0.744
+ 57%|█████▋    | 114/200 [28:20:18<21:49:55, 913.91s/it]epoch: 113	loss_full: 0.04009	loss_d: 1.07194	loss_semi: 0.02235	mean IOU: 0.778	mean IOU w/ bg: 0.749
+ 57%|█████▊    | 115/200 [28:35:33<21:35:08, 914.22s/it]epoch: 114	loss_full: 0.04214	loss_d: 1.06884	loss_semi: 0.02283	mean IOU: 0.781	mean IOU w/ bg: 0.752
+ 58%|█████▊    | 116/200 [28:50:48<21:20:18, 914.51s/it]epoch: 115	loss_full: 0.03988	loss_d: 1.06576	loss_semi: 0.02264	mean IOU: 0.780	mean IOU w/ bg: 0.752
+ 58%|█████▊    | 117/200 [29:06:02<21:04:40, 914.22s/it]epoch: 116	loss_full: 0.04257	loss_d: 1.06269	loss_semi: 0.02263	mean IOU: 0.773	mean IOU w/ bg: 0.743
+ 59%|█████▉    | 118/200 [29:21:15<20:49:09, 914.02s/it]epoch: 117	loss_full: 0.03862	loss_d: 1.05960	loss_semi: 0.02201	mean IOU: 0.779	mean IOU w/ bg: 0.751
+ 60%|█████▉    | 119/200 [29:36:29<20:33:42, 913.85s/it]epoch: 118	loss_full: 0.04041	loss_d: 1.05653	loss_semi: 0.02334	mean IOU: 0.774	mean IOU w/ bg: 0.745
+ 60%|██████    | 120/200 [29:51:43<20:18:42, 914.03s/it]epoch: 119	loss_full: 0.03982	loss_d: 1.05346	loss_semi: 0.02310	mean IOU: 0.778	mean IOU w/ bg: 0.749
+ 60%|██████    | 121/200 [30:06:58<20:03:55, 914.38s/it]epoch: 120	loss_full: 0.04180	loss_d: 1.05042	loss_semi: 0.02301	mean IOU: 0.781	mean IOU w/ bg: 0.752
+ 61%|██████    | 122/200 [30:22:13<19:49:00, 914.62s/it]epoch: 121	loss_full: 0.03970	loss_d: 1.04738	loss_semi: 0.02321	mean IOU: 0.776	mean IOU w/ bg: 0.747
+ 62%|██████▏   | 123/200 [30:37:29<19:34:02, 914.83s/it]epoch: 122	loss_full: 0.04092	loss_d: 1.04433	loss_semi: 0.02312	mean IOU: 0.778	mean IOU w/ bg: 0.749
+ 62%|██████▏   | 124/200 [30:52:44<19:18:49, 914.86s/it]epoch: 123	loss_full: 0.03955	loss_d: 1.04134	loss_semi: 0.02335	mean IOU: 0.782	mean IOU w/ bg: 0.754
+ 62%|██████▎   | 125/200 [31:07:58<19:03:32, 914.83s/it]epoch: 124	loss_full: 0.04233	loss_d: 1.03832	loss_semi: 0.02345	mean IOU: 0.779	mean IOU w/ bg: 0.750
+ 63%|██████▎   | 126/200 [31:23:13<18:48:04, 914.65s/it]epoch: 125	loss_full: 0.03941	loss_d: 1.03529	loss_semi: 0.02347	mean IOU: 0.781	mean IOU w/ bg: 0.752
+ 64%|██████▎   | 127/200 [31:38:27<18:32:47, 914.62s/it]epoch: 126	loss_full: 0.04133	loss_d: 1.03229	loss_semi: 0.02318	mean IOU: 0.777	mean IOU w/ bg: 0.747
+ 64%|██████▍   | 128/200 [31:53:42<18:17:40, 914.73s/it]epoch: 127	loss_full: 0.04190	loss_d: 1.02929	loss_semi: 0.02291	mean IOU: 0.771	mean IOU w/ bg: 0.741
+ 64%|██████▍   | 129/200 [32:08:57<18:02:29, 914.78s/it]epoch: 128	loss_full: 0.03956	loss_d: 1.02632	loss_semi: 0.02405	mean IOU: 0.777	mean IOU w/ bg: 0.748
+ 65%|██████▌   | 130/200 [32:24:14<17:47:55, 915.37s/it]epoch: 129	loss_full: 0.03965	loss_d: 1.02331	loss_semi: 0.02387	mean IOU: 0.776	mean IOU w/ bg: 0.747
+ 66%|██████▌   | 131/200 [32:39:33<17:33:51, 916.39s/it]epoch: 130	loss_full: 0.04226	loss_d: 1.02040	loss_semi: 0.02398	mean IOU: 0.781	mean IOU w/ bg: 0.752
+ 66%|██████▌   | 132/200 [32:54:51<17:19:08, 916.88s/it]epoch: 131	loss_full: 0.03947	loss_d: 1.01740	loss_semi: 0.02368	mean IOU: 0.774	mean IOU w/ bg: 0.744
+ 66%|██████▋   | 133/200 [33:10:09<17:04:25, 917.40s/it]epoch: 132	loss_full: 0.03892	loss_d: 1.01441	loss_semi: 0.02207	mean IOU: 0.774	mean IOU w/ bg: 0.744
+ 67%|██████▋   | 134/200 [33:25:24<16:48:22, 916.70s/it]epoch: 133	loss_full: 0.04041	loss_d: 1.01148	loss_semi: 0.02452	mean IOU: 0.777	mean IOU w/ bg: 0.747
+ 68%|██████▊   | 135/200 [33:40:39<16:32:16, 915.95s/it]epoch: 134	loss_full: 0.03990	loss_d: 1.00856	loss_semi: 0.02340	mean IOU: 0.777	mean IOU w/ bg: 0.748
+ 68%|██████▊   | 136/200 [33:55:54<16:16:46, 915.73s/it]epoch: 135	loss_full: 0.04079	loss_d: 1.00562	loss_semi: 0.02458	mean IOU: 0.777	mean IOU w/ bg: 0.748
+ 68%|██████▊   | 137/200 [34:11:08<16:01:06, 915.34s/it]epoch: 136	loss_full: 0.04120	loss_d: 1.00268	loss_semi: 0.02414	mean IOU: 0.779	mean IOU w/ bg: 0.750
+ 69%|██████▉   | 138/200 [34:26:23<15:45:35, 915.08s/it]epoch: 137	loss_full: 0.03929	loss_d: 0.99978	loss_semi: 0.02344	mean IOU: 0.770	mean IOU w/ bg: 0.739
+ 70%|██████▉   | 139/200 [34:41:39<15:30:43, 915.47s/it]epoch: 138	loss_full: 0.04010	loss_d: 0.99685	loss_semi: 0.02417	mean IOU: 0.777	mean IOU w/ bg: 0.748
+ 70%|███████   | 140/200 [34:56:57<15:16:18, 916.31s/it]epoch: 139	loss_full: 0.04082	loss_d: 0.99395	loss_semi: 0.02432	mean IOU: 0.771	mean IOU w/ bg: 0.741
+ 70%|███████   | 141/200 [35:12:16<15:01:36, 916.90s/it]epoch: 140	loss_full: 0.03956	loss_d: 0.99101	loss_semi: 0.02366	mean IOU: 0.779	mean IOU w/ bg: 0.751
+ 71%|███████   | 142/200 [35:27:34<14:46:51, 917.43s/it]epoch: 141	loss_full: 0.04051	loss_d: 0.98816	loss_semi: 0.02364	mean IOU: 0.781	mean IOU w/ bg: 0.752
+ 72%|███████▏  | 143/200 [35:42:56<14:32:39, 918.59s/it]epoch: 142	loss_full: 0.03921	loss_d: 0.98528	loss_semi: 0.02376	mean IOU: 0.780	mean IOU w/ bg: 0.751
+ 72%|███████▏  | 144/200 [35:58:16<14:17:48, 919.08s/it]epoch: 143	loss_full: 0.03952	loss_d: 0.98241	loss_semi: 0.02428	mean IOU: 0.776	mean IOU w/ bg: 0.746
+ 72%|███████▎  | 145/200 [36:13:36<14:02:49, 919.45s/it]epoch: 144	loss_full: 0.04054	loss_d: 0.97955	loss_semi: 0.02460	mean IOU: 0.775	mean IOU w/ bg: 0.745
+ 73%|███████▎  | 146/200 [36:28:56<13:47:33, 919.50s/it]epoch: 145	loss_full: 0.03918	loss_d: 0.97669	loss_semi: 0.02158	mean IOU: 0.776	mean IOU w/ bg: 0.747
+ 74%|███████▎  | 147/200 [36:44:15<13:32:13, 919.51s/it]epoch: 146	loss_full: 0.04038	loss_d: 0.97385	loss_semi: 0.02524	mean IOU: 0.782	mean IOU w/ bg: 0.753
+ 74%|███████▍  | 148/200 [36:59:35<13:17:03, 919.67s/it]epoch: 147	loss_full: 0.03983	loss_d: 0.97100	loss_semi: 0.02267	mean IOU: 0.777	mean IOU w/ bg: 0.748
+ 74%|███████▍  | 149/200 [37:14:56<13:01:53, 919.87s/it]epoch: 148	loss_full: 0.03973	loss_d: 0.96817	loss_semi: 0.02475	mean IOU: 0.768	mean IOU w/ bg: 0.738
+ 75%|███████▌  | 150/200 [37:30:16<12:46:37, 919.95s/it]epoch: 149	loss_full: 0.03939	loss_d: 0.96533	loss_semi: 0.02426	mean IOU: 0.774	mean IOU w/ bg: 0.745
+ 76%|███████▌  | 151/200 [37:45:37<12:31:34, 920.29s/it]epoch: 150	loss_full: 0.04019	loss_d: 0.96254	loss_semi: 0.02460	mean IOU: 0.772	mean IOU w/ bg: 0.742
+ 76%|███████▌  | 152/200 [38:00:57<12:16:08, 920.17s/it]epoch: 151	loss_full: 0.04028	loss_d: 0.95970	loss_semi: 0.02469	mean IOU: 0.774	mean IOU w/ bg: 0.744
+ 76%|███████▋  | 153/200 [38:16:17<12:00:44, 920.09s/it]epoch: 152	loss_full: 0.03979	loss_d: 0.95689	loss_semi: 0.02468	mean IOU: 0.769	mean IOU w/ bg: 0.738
+ 77%|███████▋  | 154/200 [38:31:36<11:45:17, 919.95s/it]epoch: 153	loss_full: 0.03934	loss_d: 0.95408	loss_semi: 0.02396	mean IOU: 0.775	mean IOU w/ bg: 0.746
+ 78%|███████▊  | 155/200 [38:46:57<11:30:06, 920.15s/it]epoch: 154	loss_full: 0.03996	loss_d: 0.95131	loss_semi: 0.02403	mean IOU: 0.778	mean IOU w/ bg: 0.748
+ 78%|███████▊  | 156/200 [39:02:17<11:14:46, 920.16s/it]epoch: 155	loss_full: 0.03985	loss_d: 0.94855	loss_semi: 0.02468	mean IOU: 0.771	mean IOU w/ bg: 0.741
+ 78%|███████▊  | 157/200 [39:17:37<10:59:21, 920.03s/it]epoch: 156	loss_full: 0.03979	loss_d: 0.94574	loss_semi: 0.02443	mean IOU: 0.779	mean IOU w/ bg: 0.750
+ 79%|███████▉  | 158/200 [39:32:57<10:44:02, 920.07s/it]epoch: 157	loss_full: 0.04013	loss_d: 0.94297	loss_semi: 0.02498	mean IOU: 0.774	mean IOU w/ bg: 0.744
+ 80%|███████▉  | 159/200 [39:48:16<10:28:34, 919.87s/it]epoch: 158	loss_full: 0.03941	loss_d: 0.94027	loss_semi: 0.02241	mean IOU: 0.779	mean IOU w/ bg: 0.750
+ 80%|████████  | 160/200 [40:03:37<10:13:17, 919.95s/it]epoch: 159	loss_full: 0.04052	loss_d: 0.93750	loss_semi: 0.02374	mean IOU: 0.778	mean IOU w/ bg: 0.749
+ 80%|████████  | 161/200 [40:18:56<9:57:54, 919.87s/it] epoch: 160	loss_full: 0.03856	loss_d: 0.93474	loss_semi: 0.02363	mean IOU: 0.781	mean IOU w/ bg: 0.752
+ 81%|████████  | 162/200 [40:34:15<9:42:24, 919.59s/it]epoch: 161	loss_full: 0.03996	loss_d: 0.93202	loss_semi: 0.02390	mean IOU: 0.779	mean IOU w/ bg: 0.750
+ 82%|████████▏ | 163/200 [40:49:35<9:27:03, 919.57s/it]epoch: 162	loss_full: 0.03988	loss_d: 0.92928	loss_semi: 0.02330	mean IOU: 0.776	mean IOU w/ bg: 0.746
+ 82%|████████▏ | 164/200 [41:04:54<9:11:41, 919.50s/it]epoch: 163	loss_full: 0.03935	loss_d: 0.92658	loss_semi: 0.02310	mean IOU: 0.775	mean IOU w/ bg: 0.746
+ 82%|████████▎ | 165/200 [41:20:14<8:56:23, 919.53s/it]epoch: 164	loss_full: 0.03972	loss_d: 0.92385	loss_semi: 0.02393	mean IOU: 0.775	mean IOU w/ bg: 0.745
+ 83%|████████▎ | 166/200 [41:35:33<8:41:03, 919.52s/it]epoch: 165	loss_full: 0.03938	loss_d: 0.92121	loss_semi: 0.02329	mean IOU: 0.771	mean IOU w/ bg: 0.741
+ 84%|████████▎ | 167/200 [41:50:51<8:25:28, 919.04s/it]epoch: 166	loss_full: 0.03874	loss_d: 0.91846	loss_semi: 0.02328	mean IOU: 0.772	mean IOU w/ bg: 0.743
+ 84%|████████▍ | 168/200 [42:06:11<8:10:22, 919.46s/it]epoch: 167	loss_full: 0.03975	loss_d: 0.91578	loss_semi: 0.02286	mean IOU: 0.783	mean IOU w/ bg: 0.755
+ 84%|████████▍ | 169/200 [42:21:31<7:55:04, 919.49s/it]epoch: 168	loss_full: 0.03891	loss_d: 0.91308	loss_semi: 0.02233	mean IOU: 0.776	mean IOU w/ bg: 0.746
+ 85%|████████▌ | 170/200 [42:36:50<7:39:43, 919.46s/it]epoch: 169	loss_full: 0.03911	loss_d: 0.91042	loss_semi: 0.02459	mean IOU: 0.780	mean IOU w/ bg: 0.752
+ 86%|████████▌ | 171/200 [42:52:10<7:24:26, 919.52s/it]epoch: 170	loss_full: 0.04148	loss_d: 0.90774	loss_semi: 0.02279	mean IOU: 0.779	mean IOU w/ bg: 0.750
+ 86%|████████▌ | 172/200 [43:07:30<7:09:07, 919.55s/it]epoch: 171	loss_full: 0.03827	loss_d: 0.90509	loss_semi: 0.02256	mean IOU: 0.777	mean IOU w/ bg: 0.748
+ 86%|████████▋ | 173/200 [43:22:50<6:53:54, 919.80s/it]epoch: 172	loss_full: 0.03808	loss_d: 0.90245	loss_semi: 0.02234	mean IOU: 0.778	mean IOU w/ bg: 0.749
+ 87%|████████▋ | 174/200 [43:38:10<6:38:39, 919.97s/it]epoch: 173	loss_full: 0.04012	loss_d: 0.89985	loss_semi: 0.02313	mean IOU: 0.776	mean IOU w/ bg: 0.747
+ 88%|████████▊ | 175/200 [43:53:32<6:23:28, 920.35s/it]epoch: 174	loss_full: 0.03871	loss_d: 0.89723	loss_semi: 0.02284	mean IOU: 0.783	mean IOU w/ bg: 0.755
+ 88%|████████▊ | 176/200 [44:08:52<6:08:10, 920.42s/it]epoch: 175	loss_full: 0.03879	loss_d: 0.89460	loss_semi: 0.02228	mean IOU: 0.767	mean IOU w/ bg: 0.737
+ 88%|████████▊ | 177/200 [44:24:12<5:52:46, 920.27s/it]epoch: 176	loss_full: 0.03796	loss_d: 0.89202	loss_semi: 0.02201	mean IOU: 0.774	mean IOU w/ bg: 0.744
+ 89%|████████▉ | 178/200 [44:39:32<5:37:21, 920.06s/it]epoch: 177	loss_full: 0.04000	loss_d: 0.88942	loss_semi: 0.02284	mean IOU: 0.779	mean IOU w/ bg: 0.749
+ 90%|████████▉ | 179/200 [44:54:52<5:22:01, 920.07s/it]epoch: 178	loss_full: 0.03862	loss_d: 0.88686	loss_semi: 0.02244	mean IOU: 0.770	mean IOU w/ bg: 0.740
+ 90%|█████████ | 180/200 [45:10:11<5:06:38, 919.93s/it]epoch: 179	loss_full: 0.03908	loss_d: 0.88425	loss_semi: 0.02172	mean IOU: 0.775	mean IOU w/ bg: 0.745
+ 90%|█████████ | 181/200 [45:25:31<4:51:16, 919.81s/it]epoch: 180	loss_full: 0.03664	loss_d: 0.88169	loss_semi: 0.02054	mean IOU: 0.774	mean IOU w/ bg: 0.745
+ 91%|█████████ | 182/200 [45:40:51<4:35:59, 919.96s/it]epoch: 181	loss_full: 0.03760	loss_d: 0.87915	loss_semi: 0.02162	mean IOU: 0.770	mean IOU w/ bg: 0.740
+ 92%|█████████▏| 183/200 [45:56:11<4:20:37, 919.86s/it]epoch: 182	loss_full: 0.03853	loss_d: 0.87657	loss_semi: 0.02156	mean IOU: 0.775	mean IOU w/ bg: 0.745
+ 92%|█████████▏| 184/200 [46:11:30<4:05:16, 919.75s/it]epoch: 183	loss_full: 0.03957	loss_d: 0.87402	loss_semi: 0.02170	mean IOU: 0.776	mean IOU w/ bg: 0.747
+ 92%|█████████▎| 185/200 [46:26:50<3:49:54, 919.64s/it]epoch: 184	loss_full: 0.03750	loss_d: 0.87148	loss_semi: 0.02081	mean IOU: 0.777	mean IOU w/ bg: 0.748
+ 93%|█████████▎| 186/200 [46:42:09<3:34:33, 919.55s/it]epoch: 185	loss_full: 0.03663	loss_d: 0.86895	loss_semi: 0.02006	mean IOU: 0.774	mean IOU w/ bg: 0.745
+ 94%|█████████▎| 187/200 [46:57:28<3:19:11, 919.38s/it]epoch: 186	loss_full: 0.03737	loss_d: 0.86643	loss_semi: 0.02029	mean IOU: 0.779	mean IOU w/ bg: 0.751
+ 94%|█████████▍| 188/200 [47:12:48<3:03:53, 919.42s/it]epoch: 187	loss_full: 0.03813	loss_d: 0.86389	loss_semi: 0.02129	mean IOU: 0.776	mean IOU w/ bg: 0.746
+ 94%|█████████▍| 189/200 [47:28:08<2:48:35, 919.59s/it]epoch: 188	loss_full: 0.03716	loss_d: 0.86139	loss_semi: 0.01981	mean IOU: 0.774	mean IOU w/ bg: 0.745
+ 95%|█████████▌| 190/200 [47:43:28<2:33:16, 919.69s/it]epoch: 189	loss_full: 0.03743	loss_d: 0.85887	loss_semi: 0.02075	mean IOU: 0.779	mean IOU w/ bg: 0.750
+ 96%|█████████▌| 191/200 [47:58:48<2:17:57, 919.77s/it]epoch: 190	loss_full: 0.03666	loss_d: 0.85638	loss_semi: 0.02016	mean IOU: 0.783	mean IOU w/ bg: 0.755
+ 96%|█████████▌| 192/200 [48:14:06<2:02:36, 919.52s/it]epoch: 191	loss_full: 0.03870	loss_d: 0.85390	loss_semi: 0.01986	mean IOU: 0.778	mean IOU w/ bg: 0.749
+ 96%|█████████▋| 193/200 [48:29:27<1:47:18, 919.73s/it]epoch: 192	loss_full: 0.03655	loss_d: 0.85145	loss_semi: 0.01796	mean IOU: 0.775	mean IOU w/ bg: 0.745
+ 97%|█████████▋| 194/200 [48:44:48<1:32:00, 920.16s/it]epoch: 193	loss_full: 0.03782	loss_d: 0.84891	loss_semi: 0.01990	mean IOU: 0.782	mean IOU w/ bg: 0.753
+ 98%|█████████▊| 195/200 [49:00:08<1:16:40, 920.17s/it]epoch: 194	loss_full: 0.03600	loss_d: 0.84647	loss_semi: 0.01874	mean IOU: 0.780	mean IOU w/ bg: 0.751
+ 98%|█████████▊| 196/200 [49:15:29<1:01:21, 920.31s/it]epoch: 195	loss_full: 0.03784	loss_d: 0.84406	loss_semi: 0.01992	mean IOU: 0.780	mean IOU w/ bg: 0.752
+ 98%|█████████▊| 197/200 [49:30:49<46:01, 920.46s/it]  epoch: 196	loss_full: 0.03497	loss_d: 0.84153	loss_semi: 0.01696	mean IOU: 0.781	mean IOU w/ bg: 0.752
+ 99%|█████████▉| 198/200 [49:46:10<30:41, 920.51s/it]epoch: 197	loss_full: 0.03431	loss_d: 0.83906	loss_semi: 0.01752	mean IOU: 0.774	mean IOU w/ bg: 0.744
+100%|█████████▉| 199/200 [50:01:31<15:20, 920.53s/it]epoch: 198	loss_full: 0.03634	loss_d: 0.83664	loss_semi: 0.01687	mean IOU: 0.780	mean IOU w/ bg: 0.751
+100%|██████████| 200/200 [50:16:51<00:00, 920.61s/it]
+epoch: 199	loss_full: 0.03484	loss_d: 0.83427	loss_semi: 0.01272	mean IOU: 0.778	mean IOU w/ bg: 0.749

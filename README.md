@@ -1,4 +1,4 @@
-# semi-supervised_learning_for_affordance_detection
+# semi-supervised learning for affordance detection
 semi-supervised learning for affordance detection with pytorch
 
 # requirements
